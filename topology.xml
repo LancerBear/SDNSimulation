@@ -1,0 +1,11 @@
+<pair>
+	<switch id = "0">
+		<PhyPort>0</PhyPort>
+		<PortNum>8000</PortNum>
+	</switch>
+
+	<switch id = "1">
+		<PhyPort>0</PhyPort>
+		<PortNum>8001</PortNum>
+	</switch>
+</pair>

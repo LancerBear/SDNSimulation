@@ -1,0 +1,31 @@
+<?xml version="1.0" encoding="utf-8" standalone="yes"?>
+
+<topology>
+<pair>
+	<switch>
+		<id>0</id>
+		<PhyPortNo>0</PhyPortNo> 
+		<LocalPortNum>8000</LocalPortNum>
+	</switch>
+
+	<switch>
+		<id>1</id>
+		<PhyPortNo>0</PhyPortNo>
+		<LocalPortNum>8001</LocalPortNum>
+	</switch>
+</pair>
+
+<pair>
+	<switch>
+		<id>0</id>
+		<PhyPortNo>2</PhyPortNo> 
+		<LocalPortNum>8002</LocalPortNum>
+	</switch>
+
+	<switch>
+		<id>1</id>
+		<PhyPortNo>3</PhyPortNo>
+		<LocalPortNum>8003</LocalPortNum>
+	</switch>
+</pair>
+</topology>
