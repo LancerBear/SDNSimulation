@@ -37,6 +37,7 @@ namespace Switch
 			return st.GetFrame(0).GetFileName();
 
 		}
+
 		/// <summary>
 		/// 记录log，根据宏记录在控制台或文件中
 		/// </summary>

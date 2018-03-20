@@ -1,0 +1,41 @@
+﻿using System;
+using System.Collections.Generic;
+using System.Linq;
+using System.Text;
+using System.Threading;
+using System.Threading.Tasks;
+
+namespace Switch
+{
+	class Test
+	{
+		public void Init()
+		{
+			DelegateFunc delegateFunc = new DelegateFunc(OnMsg);
+			Transmitter.SetCallBackFunc(delegateFunc);
+
+			if (Program.switchID == 0)
+			{
+				string msg = "Test";
+				byte[] buffer = Encoding.Default.GetBytes(msg);
+				Const.EN_RET_CODE retVal = Const.EN_RET_CODE.EN_RET_INIT;
+				while (true)
+				{
+					retVal = Transmitter.SendViaPhyPort(0, buffer);
+					if (retVal != Const.EN_RET_CODE.EN_RET_SUCC)
+					{
+						Util.Log(Util.EN_LOG_LEVEL.EN_LOG_INFO, "发送失败");
+					}
+					Util.Log(Util.EN_LOG_LEVEL.EN_LOG_INFO, "发送成功");
+					Thread.Sleep(2000);
+				}
+			}
+		}
+
+		public void OnMsg(byte[] buffer, int length)
+		{
+			string strMsg = Encoding.Default.GetString(buffer, 0, length);
+			Console.WriteLine("接受数据: " + strMsg);
+		}
+	}
+}

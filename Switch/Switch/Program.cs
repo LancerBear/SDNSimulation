@@ -8,10 +8,14 @@ using System.Threading.Tasks;
 
 namespace Switch
 {
+	/// <summary>
+	/// 委托函数类，可以作为参数传入函数，实现函数指针的功能
+	/// </summary>
+	/// <param name="buffer"></param>
+	public delegate void DelegateFunc(byte[] buffer, int length);
+
 	class Program
 	{
-		public const int MAX_SWITCH_NUM = 127;
-		public const int MIN_SWITCH_NUM = 0;
 		public static int switchID = -1;
 		static void Main(string[] args)
 		{
@@ -28,7 +32,7 @@ namespace Switch
 				Environment.Exit(0);
 			}
 
-			if (switchID > MAX_SWITCH_NUM || switchID < MIN_SWITCH_NUM)
+			if (switchID > Const.MAX_SWITCH_NUM || switchID < Const.MIN_SWITCH_NUM)
 			{
 				Util.Log(Util.EN_LOG_LEVEL.EN_LOG_FATAL, "交换机ID过大或过小");
 				Environment.Exit(0);
@@ -36,30 +40,39 @@ namespace Switch
 
 			Util.Log(Util.EN_LOG_LEVEL.EN_LOG_INFO, "交换机ID: " + switchID.ToString());
 
-			RetVal.EN_RET_CODE retVal = RetVal.EN_RET_CODE.EN_RET_INIT;
+			Const.EN_RET_CODE retVal = Const.EN_RET_CODE.EN_RET_INIT;
 			
 			//进行系统初始化工作，包括建立拓扑等
 			retVal = SystemInit();
-			if (retVal != RetVal.EN_RET_CODE.EN_RET_SUCC)
+			if (retVal != Const.EN_RET_CODE.EN_RET_SUCC)
 			{
 				Util.Log(Util.EN_LOG_LEVEL.EN_LOG_FATAL, "初始化失败");
 				Environment.Exit(0);
 			}
+			Util.Log(Util.EN_LOG_LEVEL.EN_LOG_INFO, "系统初始化完成");
 		}
 
 		/// <summary>
 		/// 系统初始化
 		/// </summary>
 		/// <returns></returns>
-		private static RetVal.EN_RET_CODE SystemInit()
+		private static Const.EN_RET_CODE SystemInit()
 		{
-			RetVal.EN_RET_CODE retVal = RetVal.EN_RET_CODE.EN_RET_INIT;
+			Const.EN_RET_CODE retVal = Const.EN_RET_CODE.EN_RET_INIT;
+			
+			//建立拓扑
 			retVal = FileReader.InitFromFile("topology.xml");
-			if (RetVal.EN_RET_CODE.EN_RET_SUCC != retVal)
+			if (Const.EN_RET_CODE.EN_RET_SUCC != retVal)
 			{
 				return retVal;
 			}
-			return RetVal.EN_RET_CODE.EN_RET_SUCC;
+			Util.Log(Util.EN_LOG_LEVEL.EN_LOG_INFO, "初始化拓扑完成");
+
+			Test test = new Test();
+			test.Init();
+
+			//TODO SDN模块启动
+			return Const.EN_RET_CODE.EN_RET_SUCC;
 		}
 	}
 }

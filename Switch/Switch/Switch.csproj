@@ -58,9 +58,14 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="FileReader.cs" />
+    <Compile Include="Listener.cs" />
+    <Compile Include="PhyPort.cs" />
+    <Compile Include="PhyPortManager.cs" />
     <Compile Include="Program.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
-    <Compile Include="RetVal.cs" />
+    <Compile Include="Const.cs" />
+    <Compile Include="Test.cs" />
+    <Compile Include="Transmitter.cs" />
     <Compile Include="Util.cs" />
   </ItemGroup>
   <ItemGroup>
