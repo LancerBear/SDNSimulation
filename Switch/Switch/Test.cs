@@ -21,21 +21,24 @@ namespace Switch
 				Const.EN_RET_CODE retVal = Const.EN_RET_CODE.EN_RET_INIT;
 				while (true)
 				{
-					retVal = Transmitter.SendViaPhyPort(0, buffer);
+					Thread.Sleep(1000);
+					retVal = Transmitter.SendViaPhyPort(1, buffer);
+					retVal = Transmitter.SendViaPhyPort(2, buffer);
 					if (retVal != Const.EN_RET_CODE.EN_RET_SUCC)
 					{
 						Util.Log(Util.EN_LOG_LEVEL.EN_LOG_INFO, "发送失败");
+						continue;
 					}
 					Util.Log(Util.EN_LOG_LEVEL.EN_LOG_INFO, "发送成功");
-					Thread.Sleep(2000);
+					
 				}
 			}
 		}
 
-		public void OnMsg(byte[] buffer, int length)
+		public void OnMsg(byte[] buffer, int length, int phyPortNo)
 		{
 			string strMsg = Encoding.Default.GetString(buffer, 0, length);
-			Console.WriteLine("接受数据: " + strMsg);
+			Console.WriteLine("端口 " + phyPortNo + "传入数据 : " + strMsg);
 		}
 	}
 }

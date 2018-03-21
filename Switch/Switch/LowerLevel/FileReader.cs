@@ -34,7 +34,6 @@ namespace Switch
 			string strLocalPortNum;
 			string strRemotePortNum;
 
-			int iID = -1;
 			int iPhyPortNo = -1;
 			int iLocalPortNum = -1;
 			int iRemotePortNum = -1;

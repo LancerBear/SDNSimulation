@@ -4,13 +4,13 @@
 <pair>
 	<switch>
 		<id>0</id>
-		<PhyPortNo>0</PhyPortNo> 
+		<PhyPortNo>1</PhyPortNo> 
 		<LocalPortNum>8000</LocalPortNum>
 	</switch>
 
 	<switch>
 		<id>1</id>
-		<PhyPortNo>0</PhyPortNo>
+		<PhyPortNo>1</PhyPortNo>
 		<LocalPortNum>8001</LocalPortNum>
 	</switch>
 </pair>

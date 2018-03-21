@@ -18,7 +18,11 @@ namespace Switch
 		/// </summary>
 		private PhyPortManager()
 		{
-
+			for (int i = 0; i < Const.MAX_PHY_PORT_NUM + 1; i++)
+			{
+				arrPhyPort[i] = null;
+				arrListener[i] = null;
+			}
 		}
 
 		/// <summary>
@@ -45,19 +49,18 @@ namespace Switch
 		/// 新增一个模拟物理端口，并为其绑定一个Listener
 		/// </summary>
 		/// <param name="PhyPortNo">物理端口号，大于0小于4</param>
-		/// <param name="iSendPort">监听端口</param>
+		/// <param name="iRemotePort">监听端口</param>
 		/// <param name="iLocalPort">发送端口</param>
 		/// <returns></returns>
-		public Const.EN_RET_CODE AddPort(int PhyPortNo, int iSendPort, int iLocalPort)
+		public Const.EN_RET_CODE AddPort(int PhyPortNo, int iRemotePort, int iLocalPort)
 		{
 			if (PhyPortNo > Const.MAX_PHY_PORT_NUM || PhyPortNo < Const.MIN_PHY_PORT_NUM)
 			{
 				return Const.EN_RET_CODE.EN_RET_PHY_PORT_OVERFLOW;
 			}
 
-			PhyPort p = new PhyPort(PhyPortNo, iSendPort, iLocalPort);
+			PhyPort p = new PhyPort(PhyPortNo, iRemotePort, iLocalPort);
 			arrPhyPort[PhyPortNo] = p;
-
 			Listener listener = new Listener(p);
 			arrListener[PhyPortNo] = listener;
 
@@ -70,7 +73,7 @@ namespace Switch
 			if (phyPortNo > Const.MAX_PHY_PORT_NUM || phyPortNo < Const.MIN_PHY_PORT_NUM)
 				return Const.EN_RET_CODE.EN_RET_PHY_PORT_OVERFLOW;
 
-			if (arrPhyPort[phyPortNo].connected == false)
+			if (arrPhyPort[phyPortNo] == null)
 				return Const.EN_RET_CODE.EN_RET_PHY_PORT_NOT_CONNECTED;
 
 			arrPhyPort[phyPortNo].SendTo(buffer);
@@ -81,9 +84,9 @@ namespace Switch
 		/// <summary>
 		/// Listener接收到socket包后调用
 		/// </summary>
-		public void HandleReceive(byte[] buffer, int length)
+		public void HandleReceive(byte[] buffer, int length, int phyPortNo)
 		{
-			Transmitter.CallFunc(buffer, length);
+			Transmitter.CallFunc(buffer, length, phyPortNo);
 		}
 	}
 }

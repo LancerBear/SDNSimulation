@@ -11,9 +11,9 @@ namespace Switch
 	public class PhyPort
 	{
 		public bool connected = false;
-		private int iSendPort;
+		public int iRemotePort;
 		private int iLocalPort;
-		private int PhyPortNo;
+		public int PhyPortNo;
 		public Socket socket;
 		public IPEndPoint ipepLocalPoint;
 		public EndPoint epRemptePoint;
@@ -22,13 +22,13 @@ namespace Switch
 		/// 构造函数，初始化一个模拟物理端口，初始化Socket
 		/// </summary>
 		/// <param name="PyhPortNo"></param>
-		/// <param name="iSendPort"></param>
+		/// <param name="iRemotePort"></param>
 		/// <param name="iLocalPort"></param>
-		public PhyPort(int PyhPortNo, int iSendPort, int iLocalPort)
+		public PhyPort(int PyhPortNo, int iRemotePort, int iLocalPort)
 		{
 			this.connected = true;
 			this.PhyPortNo = PyhPortNo;
-			this.iSendPort = iSendPort;
+			this.iRemotePort = iRemotePort;
 			this.iLocalPort = iLocalPort;
 
 			//本地ip端口
@@ -38,7 +38,7 @@ namespace Switch
 			this.socket = new Socket(AddressFamily.InterNetwork, SocketType.Dgram, ProtocolType.Udp);
 
 			//监听的ip端口
-			this.epRemptePoint = (EndPoint)new IPEndPoint(Const.ipAddress, iSendPort);
+			this.epRemptePoint = (EndPoint)new IPEndPoint(Const.ipAddress, iRemotePort);
 
 			//绑定本地ip端口
 			try

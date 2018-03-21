@@ -21,7 +21,7 @@ namespace Switch
 		/// </summary>
 		/// <param name="buffer">接收数据包内容</param>
 		/// <returns></returns>
-		public static Const.EN_RET_CODE CallFunc(byte[] buffer, int length)
+		public static Const.EN_RET_CODE CallFunc(byte[] buffer, int length, int phyPortNo)
 		{
 			if (delegataFunc == null)
 			{
@@ -29,7 +29,7 @@ namespace Switch
 			}
 
 			//阻塞的方式调用回调函数
-			delegataFunc(buffer, length);
+			delegataFunc(buffer, length, phyPortNo);
 			return Const.EN_RET_CODE.EN_RET_SUCC;
 		}
 
@@ -50,7 +50,7 @@ namespace Switch
 		public static Const.EN_RET_CODE SendViaPhyPort(int PhyPortNo, byte[] buffer)
 		{
 			Const.EN_RET_CODE retVal = Const.EN_RET_CODE.EN_RET_INIT;
-			retVal = PhyPortManager.GetInstance().SendTo(0, buffer);
+			retVal = PhyPortManager.GetInstance().SendTo(PhyPortNo, buffer);
 			return retVal;
 		}
 	}

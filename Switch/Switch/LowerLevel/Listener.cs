@@ -11,6 +11,8 @@ namespace Switch
 {
 	public class Listener
 	{
+		private int listenPort;
+		private int listenerNo;
 		private Thread listenerThread;
 		private Socket listenerSocket;
 		private EndPoint epRemotePoint;
@@ -21,7 +23,8 @@ namespace Switch
 		/// <param name="pyhPort"></param>
 		public Listener(PhyPort pyhPort)
 		{
-			//this.listenerSocket = new Socket(AddressFamily.InterNetwork, SocketType.Dgram, ProtocolType.Udp);
+			this.listenPort = pyhPort.iRemotePort;
+			this.listenerNo = pyhPort.PhyPortNo;
 			this.listenerSocket = pyhPort.socket;
 			this.epRemotePoint = new IPEndPoint(IPAddress.Any, 0);
 
@@ -36,25 +39,31 @@ namespace Switch
 		{
 			byte[] buffer = new byte[Const.MAX_PACKET_LENGTH];
 
-			while (true)
+			while(true)
 			{
 				if (this.listenerSocket == null || this.listenerSocket.Available < 1)
 				{
 					Thread.Sleep(20);
 					continue;
 				}
+
 				int length = 0;
 				try
 				{
 					length = this.listenerSocket.ReceiveFrom(buffer, ref this.epRemotePoint);
-				}catch(SocketException ex)
+				}
+				catch (SocketException ex)
 				{
-					Console.WriteLine("SocketException" + ex.ErrorCode);
+					//在SendTo的目的端口没有Socket在监听，或原有的监听Socket被关闭时，这里监听会抛出10054异常
+					//Console.WriteLine("SocketException" + ex.ErrorCode);
 					continue;
 				}
-				//TODO 
-				//调用处理函数
-				PhyPortManager.GetInstance().HandleReceive(buffer, length);
+
+				//如果接收到数据的是从监听端口发出的，就调用处理函数
+				if (((IPEndPoint)this.epRemotePoint).Port == this.listenPort)
+				{
+					PhyPortManager.GetInstance().HandleReceive(buffer, length, this.listenerNo);
+				}
 			}
 
 		}

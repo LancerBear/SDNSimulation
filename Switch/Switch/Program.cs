@@ -12,7 +12,7 @@ namespace Switch
 	/// 委托函数类，可以作为参数传入函数，实现函数指针的功能
 	/// </summary>
 	/// <param name="buffer"></param>
-	public delegate void DelegateFunc(byte[] buffer, int length);
+	public delegate void DelegateFunc(byte[] buffer, int length, int phyPortNo);
 
 	class Program
 	{
