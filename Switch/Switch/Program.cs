@@ -16,7 +16,9 @@ namespace Switch
 
 	class Program
 	{
-		public static int switchID = -1;
+		//当前交换机的ID
+		public static int iCurSwitchID = -1;
+
 		static void Main(string[] args)
 		{
 			Util.Log(Util.EN_LOG_LEVEL.EN_LOG_INFO, "系统启动");
@@ -26,19 +28,19 @@ namespace Switch
 				Environment.Exit(0);
 			}
 			
-			if (!int.TryParse(args[0], out switchID))
+			if (!int.TryParse(args[0], out iCurSwitchID))
 			{
 				Util.Log(Util.EN_LOG_LEVEL.EN_LOG_FATAL, "输入参数格式不正确");
 				Environment.Exit(0);
 			}
 
-			if (switchID > Const.MAX_SWITCH_NUM || switchID < Const.MIN_SWITCH_NUM)
+			if (iCurSwitchID > Const.MAX_SWITCH_NUM || iCurSwitchID < Const.MIN_SWITCH_NUM)
 			{
 				Util.Log(Util.EN_LOG_LEVEL.EN_LOG_FATAL, "交换机ID过大或过小");
 				Environment.Exit(0);
 			}
 
-			Util.Log(Util.EN_LOG_LEVEL.EN_LOG_INFO, "交换机ID: " + switchID.ToString());
+			Util.Log(Util.EN_LOG_LEVEL.EN_LOG_INFO, "交换机ID: " + iCurSwitchID.ToString());
 
 			Const.EN_RET_CODE retVal = Const.EN_RET_CODE.EN_RET_INIT;
 			

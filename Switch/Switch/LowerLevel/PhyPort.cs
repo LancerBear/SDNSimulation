@@ -44,7 +44,7 @@ namespace Switch
 			try
 			{
 				this.socket.Bind(this.ipepLocalPoint);
-			}catch (Exception ex)
+			}catch (Exception)
 			{
 				Util.Log(Util.EN_LOG_LEVEL.EN_LOG_FATAL, "端口" + iLocalPort.ToString() + "被占用");
 				Environment.Exit(0);

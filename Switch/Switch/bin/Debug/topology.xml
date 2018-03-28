@@ -37,7 +37,7 @@
 
 	<switch>
 		<id>1</id>
-		<PhyPortNo>3</PhyPortNo>
+		<PhyPortNo>2</PhyPortNo>
 		<LocalPortNum>8003</LocalPortNum>
 	</switch>
 </pair>

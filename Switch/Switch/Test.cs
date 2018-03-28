@@ -14,7 +14,7 @@ namespace Switch
 			DelegateFunc delegateFunc = new DelegateFunc(OnMsg);
 			Transmitter.SetCallBackFunc(delegateFunc);
 
-			if (Program.switchID == 0)
+			if (Program.iCurSwitchID == 0)
 			{
 				string msg = "Test";
 				byte[] buffer = Encoding.Default.GetBytes(msg);

@@ -20,44 +20,46 @@ namespace Switch
 			try
 			{
 				doc.Load(fileName);
-			}catch(Exception ex)
+			}catch(Exception)
 			{
 				Util.Log(Util.EN_LOG_LEVEL.EN_LOG_FATAL, fileName + "拓扑结构文件不存在！");
 				return Const.EN_RET_CODE.EN_RET_FILE_NOT_EXIST;
 			}
 
 			Util.Log(Util.EN_LOG_LEVEL.EN_LOG_INFO, "读取拓扑文件");
-
-			string strID0;
-			string strID1;
-			string strPhyPortNo;
-			string strLocalPortNum;
-			string strRemotePortNum;
-
-			int iPhyPortNo = -1;
-			int iLocalPortNum = -1;
-			int iRemotePortNum = -1;
+	
 
 			//记录当前交换机的ID在pair中的下标
 			int selfIndexInPair = -1;
 			try
 			{
 				XmlElement root = doc.DocumentElement;
-				XmlNodeList pairList = root.GetElementsByTagName("pair");
 
 				//遍历所有pair
+				XmlNodeList pairList = root.GetElementsByTagName("pair");
+				
 				foreach (XmlNode PairNode in pairList)
 				{
+					string strID0;
+					string strID1;
+					string strPhyPortNo;
+					string strLocalPortNum;
+					string strRemotePortNum;
+
+					int iPhyPortNo = -1;
+					int iLocalPortNum = -1;
+					int iRemotePortNum = -1;
+
 					XmlNodeList switchList = ((XmlElement)PairNode).GetElementsByTagName("switch");
 					strID0 = ((XmlElement)switchList[0]).GetElementsByTagName("id")[0].InnerText;
 					strID1 = ((XmlElement)switchList[1]).GetElementsByTagName("id")[0].InnerText;
 					
 					//监测pair 中是否有某个交换机ID和当前交换机的ID相同
-					if (strID0 == Program.switchID.ToString())
+					if (strID0 == Program.iCurSwitchID.ToString())
 					{
 						selfIndexInPair = 0;
 					}
-					else if (strID1 == Program.switchID.ToString())
+					else if (strID1 == Program.iCurSwitchID.ToString())
 					{
 						selfIndexInPair = 1;
 					} 
@@ -102,7 +104,37 @@ namespace Switch
 						}
 					}
 				}
-			}catch(Exception ex)
+
+				//遍历controller标签
+				XmlNodeList controllerList = root.GetElementsByTagName("controller");
+				foreach(XmlNode ctrlNode in controllerList)
+				{
+					string strSwitchID = ((XmlElement)ctrlNode).GetElementsByTagName("switchID")[0].InnerText;
+					
+					if (Program.iCurSwitchID.ToString() != strSwitchID)
+					{
+						continue;
+					}
+
+					string strSwitchPort = ((XmlElement)ctrlNode).GetElementsByTagName("switchPort")[0].InnerText;
+					string strControllerPort = ((XmlElement)ctrlNode).GetElementsByTagName("controllerPort")[0].InnerText; ;
+					int iSwitchPort = -1;
+					int iControllerPort = -1;
+					int.TryParse(strSwitchPort, out iSwitchPort);
+					int.TryParse(strControllerPort, out iControllerPort);
+
+					//增加物理端口，监听控制器发送的数据，默认控制器连接交换机的0端口
+					Const.EN_RET_CODE retVal = Const.EN_RET_CODE.EN_RET_INIT;
+					retVal = PhyPortManager.GetInstance().AddPort(Const.PHY_PORT_FOR_CONTROLLER, iControllerPort, iSwitchPort);
+					if (retVal != Const.EN_RET_CODE.EN_RET_SUCC)
+					{
+						//TODO
+						Util.Log(Util.EN_LOG_LEVEL.EN_LOG_FATAL, "连接控制器失败");
+						return retVal;
+					}
+				}
+
+			}catch(Exception)
 			{
 				Util.Log(Util.EN_LOG_LEVEL.EN_LOG_FATAL, "Xml格式错误");
 				return Const.EN_RET_CODE.EN_XML_FILE_FORMAT_ERR;

@@ -52,7 +52,7 @@ namespace Switch
 				{
 					length = this.listenerSocket.ReceiveFrom(buffer, ref this.epRemotePoint);
 				}
-				catch (SocketException ex)
+				catch (SocketException)
 				{
 					//在SendTo的目的端口没有Socket在监听，或原有的监听Socket被关闭时，这里监听会抛出10054异常
 					//Console.WriteLine("SocketException" + ex.ErrorCode);

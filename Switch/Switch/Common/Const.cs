@@ -33,5 +33,8 @@ namespace Switch
 		public const int MIN_SWITCH_NUM = 0;
 
 		public const int MAX_PACKET_LENGTH = 2048;
+
+		//交换机连接控制器的物理端口号
+		public const int PHY_PORT_FOR_CONTROLLER = 0;
 	}
 }
