@@ -1,6 +1,19 @@
 <?xml version="1.0" encoding="utf-8" standalone="yes"?>
 
 <topology>
+
+<controller>
+	<switchID>0</switchID>
+	<switchPort>10000</switchPort>
+	<controllerPort>10001</controllerPort>
+</controller>
+
+<controller>
+	<switchID>1</switchID>
+	<switchPort>10002</switchPort>
+	<controllerPort>10003</controllerPort>
+</controller>
+
 <pair>
 	<switch>
 		<id>0</id>
@@ -28,4 +41,5 @@
 		<LocalPortNum>8003</LocalPortNum>
 	</switch>
 </pair>
+
 </topology>
