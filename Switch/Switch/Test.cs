@@ -33,6 +33,11 @@ namespace Switch
 					
 				}
 			}
+
+			while (true)
+			{
+
+			}
 		}
 
 		public void OnMsg(byte[] buffer, int length, int phyPortNo)

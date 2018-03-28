@@ -63,7 +63,7 @@ namespace Switch
 			Const.EN_RET_CODE retVal = Const.EN_RET_CODE.EN_RET_INIT;
 			
 			//建立拓扑
-			retVal = FileReader.InitFromFile("topology.xml");
+			retVal = FileReader.InitFromFile("..\\..\\..\\topology.xml");
 			if (Const.EN_RET_CODE.EN_RET_SUCC != retVal)
 			{
 				return retVal;

@@ -54,7 +54,7 @@ namespace Switch
 					strID0 = ((XmlElement)switchList[0]).GetElementsByTagName("id")[0].InnerText;
 					strID1 = ((XmlElement)switchList[1]).GetElementsByTagName("id")[0].InnerText;
 					
-					//监测pair 中是否有某个交换机ID和当前交换机的ID相同
+					//检测pair 中是否有某个交换机ID和当前交换机的ID相同
 					if (strID0 == Program.iCurSwitchID.ToString())
 					{
 						selfIndexInPair = 0;

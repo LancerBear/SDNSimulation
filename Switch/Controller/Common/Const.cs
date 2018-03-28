@@ -5,7 +5,7 @@ using System.Net;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace Switch
+namespace Controller
 {
 	public static class Const
 	{
@@ -18,6 +18,9 @@ namespace Switch
 			EN_RET_PHY_PORT_OVERFLOW,
 			EN_RET_PHY_PORT_NOT_CONNECTED,
 			EN_RET_CALL_BACK_FUNC_NOT_SET,
+			EN_RET_SWITCH_ID_OVERFLOW,
+			EN_RET_DISTAANCE_OVERFLOW,
+			EN_RET_INT_TRY_PARSE_ERR,
 			EN_RET_ERR
 		}
 
@@ -31,6 +34,9 @@ namespace Switch
 
 		public const int MAX_SWITCH_NUM = 31;
 		public const int MIN_SWITCH_NUM = 0;
+
+		public const int MAX_DISTANCE = 999999;
+		public const int MIN_DISTANCE = 1;
 
 		public const int MAX_PACKET_LENGTH = 2048;
 

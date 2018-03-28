@@ -15,6 +15,8 @@
 </controller>
 
 <pair>
+	<distance>2043</distance>
+
 	<switch>
 		<id>0</id>
 		<PhyPortNo>1</PhyPortNo> 
@@ -29,6 +31,8 @@
 </pair>
 
 <pair>
+	<distance>1797</distance>
+
 	<switch>
 		<id>0</id>
 		<PhyPortNo>2</PhyPortNo> 
