@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
+using System.Threading;
 using System.Threading.Tasks;
 
 namespace Controller
@@ -10,6 +11,12 @@ namespace Controller
 	{
 		//邻接矩阵
 		public static SinglePathInfo[,] PathInfoArr = new SinglePathInfo[Const.MAX_SWITCH_NUM + 1, Const.MAX_SWITCH_NUM + 1];
+
+		//消息队列
+		public static Queue<Packet> PacketQueue = new Queue<Packet>();
+
+		//消息队列互斥锁
+		public static Mutex PktQueueMutex = new Mutex();
 
 		static void Main(string[] args)
 		{
@@ -39,6 +46,9 @@ namespace Controller
 			if (retVal != Const.EN_RET_CODE.EN_RET_SUCC)
 				return retVal;
 
+			//清空消息队列
+			PacketQueue.Clear();
+			
 			//从文件读取拓扑信息
 			retVal = FileReader.InitFromFile("..\\..\\..\\topology.xml");
 			if (retVal != Const.EN_RET_CODE.EN_RET_SUCC)

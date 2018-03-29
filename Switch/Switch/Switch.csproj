@@ -57,14 +57,14 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="LowerLevel\FileReader.cs" />
-    <Compile Include="LowerLevel\Listener.cs" />
-    <Compile Include="LowerLevel\PhyPort.cs" />
-    <Compile Include="LowerLevel\PhyPortManager.cs" />
+    <Compile Include="LowerLayer\FileReader.cs" />
+    <Compile Include="LowerLayer\Listener.cs" />
+    <Compile Include="LowerLayer\PhyPort.cs" />
+    <Compile Include="LowerLayer\PhyPortManager.cs" />
     <Compile Include="Program.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Common\Const.cs" />
-    <Compile Include="Test.cs" />
+    <Compile Include="AppLayer\Test.cs" />
     <Compile Include="Common\Transmitter.cs" />
     <Compile Include="Common\Util.cs" />
   </ItemGroup>

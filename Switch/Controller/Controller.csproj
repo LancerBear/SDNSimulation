@@ -43,15 +43,22 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="Common\Const.cs" />
+    <Compile Include="Common\Packet.cs" />
+    <Compile Include="Common\Transmitter.cs" />
     <Compile Include="Common\Util.cs" />
-    <Compile Include="LowerLevel\FileReader.cs" />
-    <Compile Include="LowerLevel\PathInfo.cs" />
+    <Compile Include="LowerLayer\FileReader.cs" />
+    <Compile Include="LowerLayer\Listener.cs" />
+    <Compile Include="LowerLayer\PathInfo.cs" />
+    <Compile Include="LowerLayer\PhyPort.cs" />
+    <Compile Include="LowerLayer\PhyPortManager.cs" />
     <Compile Include="Program.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
   <ItemGroup>
     <None Include="App.config" />
   </ItemGroup>
-  <ItemGroup />
+  <ItemGroup>
+    <Folder Include="AppLayer\" />
+  </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
 </Project>

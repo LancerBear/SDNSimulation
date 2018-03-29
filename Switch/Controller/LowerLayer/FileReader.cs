@@ -133,9 +133,64 @@ namespace Controller
 				XmlNodeList controllerList = root.GetElementsByTagName("controller");
 				foreach (XmlNode ctrlNode in controllerList)
 				{
-					
-				}
+					bool boolTryParseResult = false;
 
+					string strSwitchID;
+					string strSwitchPort;
+					string strControllerPort;
+
+					int iSwitchID = Const.INVALID_NUM;
+					int iSwitchPort = Const.INVALID_NUM;
+					int iControllerPort = Const.INVALID_NUM;
+
+					strSwitchID = ((XmlElement)ctrlNode).GetElementsByTagName("switchID")[0].InnerText;
+					strSwitchPort = ((XmlElement)ctrlNode).GetElementsByTagName("switchPort")[0].InnerText;
+					strControllerPort = ((XmlElement)ctrlNode).GetElementsByTagName("controllerPort")[0].InnerText;
+
+					boolTryParseResult = int.TryParse(strSwitchID, out iSwitchID);
+					if (boolTryParseResult != true)
+					{
+						Util.Log(Util.EN_LOG_LEVEL.EN_LOG_FATAL, "交换机ID转换整型变量失败");
+						return Const.EN_RET_CODE.EN_RET_INT_TRY_PARSE_ERR;
+					}
+
+					boolTryParseResult = int.TryParse(strSwitchPort, out iSwitchPort);
+					if (boolTryParseResult != true)
+					{
+						Util.Log(Util.EN_LOG_LEVEL.EN_LOG_FATAL, "交换机端口号转换整型变量失败");
+						return Const.EN_RET_CODE.EN_RET_INT_TRY_PARSE_ERR;
+					}
+
+					boolTryParseResult = int.TryParse(strControllerPort, out iControllerPort);
+					if (boolTryParseResult != true)
+					{
+						Util.Log(Util.EN_LOG_LEVEL.EN_LOG_FATAL, "控制器端口号转换整型变量失败");
+						return Const.EN_RET_CODE.EN_RET_INT_TRY_PARSE_ERR;
+					}
+
+					//交换机ID不在范围内
+					if (iSwitchID > Const.MAX_SWITCH_NUM || iSwitchID < Const.MIN_SWITCH_NUM)
+					{
+						Util.Log(Util.EN_LOG_LEVEL.EN_LOG_FATAL, "交换机ID不在范围内");
+						return Const.EN_RET_CODE.EN_RET_SWITCH_ID_OVERFLOW;
+					}
+
+					//交换机或控制器端口号不在范围内
+					if (iSwitchPort > Const.MAX_PORT_NUM || iSwitchPort < Const.MIN_PORT_NUM
+						|| iControllerPort > Const.MAX_PORT_NUM || iControllerPort < Const.MIN_PORT_NUM)
+					{
+						Util.Log(Util.EN_LOG_LEVEL.EN_LOG_FATAL, "交换机或控制器端口号不在范围内");
+						return Const.EN_RET_CODE.EN_RET_PORT_OVERFLOW;
+					}
+
+					Const.EN_RET_CODE retVal = Const.EN_RET_CODE.EN_RET_INIT;
+					//将交换机ID作为控制器的物理端口号
+					retVal = PhyPortManager.GetInstance().AddPort(iSwitchID, iSwitchPort, iControllerPort);
+					if (retVal != Const.EN_RET_CODE.EN_RET_SUCC)
+					{
+						Util.Log(Util.EN_LOG_LEVEL.EN_LOG_FATAL, "添加物理端口失败");
+					}
+				}
 			}
 			catch (XmlException)
 			{
