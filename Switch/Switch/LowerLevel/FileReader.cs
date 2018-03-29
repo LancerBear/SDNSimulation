@@ -30,7 +30,7 @@ namespace Switch
 	
 
 			//记录当前交换机的ID在pair中的下标
-			int selfIndexInPair = -1;
+			int selfIndexInPair = Const.INVALID_NUM;
 			try
 			{
 				XmlElement root = doc.DocumentElement;
@@ -46,9 +46,9 @@ namespace Switch
 					string strLocalPortNum;
 					string strRemotePortNum;
 
-					int iPhyPortNo = -1;
-					int iLocalPortNum = -1;
-					int iRemotePortNum = -1;
+					int iPhyPortNo = Const.INVALID_NUM;
+					int iLocalPortNum = Const.INVALID_NUM;
+					int iRemotePortNum = Const.INVALID_NUM;
 
 					XmlNodeList switchList = ((XmlElement)PairNode).GetElementsByTagName("switch");
 					strID0 = ((XmlElement)switchList[0]).GetElementsByTagName("id")[0].InnerText;
@@ -65,12 +65,12 @@ namespace Switch
 					} 
 					else
 					{
-						selfIndexInPair = -1;
+						selfIndexInPair = Const.INVALID_NUM;
 						continue;
 					}
 					
 					//pair 中某个交换机ID和当前交换机的ID相同
-					if (selfIndexInPair != -1)
+					if (selfIndexInPair != Const.INVALID_NUM)
 					{
 						strPhyPortNo = ((XmlElement)switchList[selfIndexInPair]).GetElementsByTagName("PhyPortNo")[0].InnerText;
 						strLocalPortNum = ((XmlElement)switchList[selfIndexInPair]).GetElementsByTagName("LocalPortNum")[0].InnerText;
@@ -118,8 +118,8 @@ namespace Switch
 
 					string strSwitchPort = ((XmlElement)ctrlNode).GetElementsByTagName("switchPort")[0].InnerText;
 					string strControllerPort = ((XmlElement)ctrlNode).GetElementsByTagName("controllerPort")[0].InnerText; ;
-					int iSwitchPort = -1;
-					int iControllerPort = -1;
+					int iSwitchPort = Const.INVALID_NUM;
+					int iControllerPort = Const.INVALID_NUM;
 					int.TryParse(strSwitchPort, out iSwitchPort);
 					int.TryParse(strControllerPort, out iControllerPort);
 

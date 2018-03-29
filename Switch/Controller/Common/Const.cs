@@ -42,5 +42,8 @@ namespace Controller
 
 		//交换机连接控制器的物理端口号
 		public const int PHY_PORT_FOR_CONTROLLER = 0;
+
+		//无效数字，用于初始化变量
+		public const int INVALID_NUM = -1;
 	}
 }

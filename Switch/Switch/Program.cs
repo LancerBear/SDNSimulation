@@ -17,7 +17,7 @@ namespace Switch
 	class Program
 	{
 		//当前交换机的ID
-		public static int iCurSwitchID = -1;
+		public static int iCurSwitchID = Const.INVALID_NUM;
 
 		static void Main(string[] args)
 		{

@@ -58,8 +58,8 @@ namespace Controller
 				for (int j = 0; j < PathInfoArr.GetLength(1); j++)
 				{
 					PathInfoArr[i, j] = new SinglePathInfo();
-					PathInfoArr[i, j].distance = -1;
-					PathInfoArr[i, j].phyPortNo = -1;
+					PathInfoArr[i, j].distance = Const.INVALID_NUM;
+					PathInfoArr[i, j].phyPortNo = Const.INVALID_NUM;
 				}
 			}
 			return Const.EN_RET_CODE.EN_RET_SUCC;
