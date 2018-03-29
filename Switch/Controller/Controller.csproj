@@ -55,11 +55,6 @@
   <ItemGroup>
     <None Include="App.config" />
   </ItemGroup>
-  <ItemGroup>
-    <ProjectReference Include="..\SDNCommon\SDNCommon.csproj">
-      <Project>{7c4f4995-cc22-4abd-8f5c-590902a8da78}</Project>
-      <Name>SDNCommon</Name>
-    </ProjectReference>
-  </ItemGroup>
+  <Import Project="..\SDNCommon\SDNCommon.projitems" Label="Shared" />
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
 </Project>
