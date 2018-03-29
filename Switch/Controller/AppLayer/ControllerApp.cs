@@ -19,7 +19,7 @@ namespace Controller
 		/// </summary>
 		public static void StartApp()
 		{
-			Packet packet = null;
+			PacketInfo packet = null;
 			while (true)
 			{
 				packet = null;

@@ -14,7 +14,7 @@ namespace Controller
 		public static SinglePathInfo[,] PathInfoArr = new SinglePathInfo[Const.MAX_SWITCH_NUM + 1, Const.MAX_SWITCH_NUM + 1];
 
 		//消息队列
-		public static Queue<Packet> PacketQueue = new Queue<Packet>();
+		public static Queue<PacketInfo> PacketQueue = new Queue<PacketInfo>();
 
 		//消息队列互斥锁
 		public static Mutex PktQueueMutex = new Mutex();

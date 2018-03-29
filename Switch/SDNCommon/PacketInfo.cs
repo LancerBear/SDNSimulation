@@ -9,15 +9,15 @@ namespace SDNCommon
 	/// <summary>
 	/// 存在消息队列中的消息类
 	/// </summary>
-	public class Packet
+	public class PacketInfo
 	{
 		private int iPhyPortNo;
-		private byte[] byteBuffer;
+		private PacketEntity packetEntity;
 
-		public Packet(int iPhyPortNo, byte[] buffer)
+		public PacketInfo(int iPhyPortNo, PacketEntity packetEntity)
 		{
 			this.iPhyPortNo = iPhyPortNo;
-			this.byteBuffer = buffer;
+			this.packetEntity = packetEntity;
 		}
 
 		public int GetPhyPort()
@@ -25,9 +25,9 @@ namespace SDNCommon
 			return this.iPhyPortNo;
 		}
 
-		public byte[] GetBuffer()
+		public PacketEntity GetPacketEntity()
 		{
-			return this.byteBuffer;
+			return this.packetEntity;
 		}
 	}
 }
