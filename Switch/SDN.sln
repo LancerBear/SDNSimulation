@@ -7,6 +7,8 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Switch", "Switch\Switch.csp
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Controller", "Controller\Controller.csproj", "{55B21384-B472-493A-A1DF-DBD0838EE246}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "SDNCommon", "SDNCommon\SDNCommon.csproj", "{7C4F4995-CC22-4ABD-8F5C-590902A8DA78}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -21,6 +23,10 @@ Global
 		{55B21384-B472-493A-A1DF-DBD0838EE246}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{55B21384-B472-493A-A1DF-DBD0838EE246}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{55B21384-B472-493A-A1DF-DBD0838EE246}.Release|Any CPU.Build.0 = Release|Any CPU
+		{7C4F4995-CC22-4ABD-8F5C-590902A8DA78}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{7C4F4995-CC22-4ABD-8F5C-590902A8DA78}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{7C4F4995-CC22-4ABD-8F5C-590902A8DA78}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{7C4F4995-CC22-4ABD-8F5C-590902A8DA78}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE

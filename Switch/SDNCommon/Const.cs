@@ -5,7 +5,7 @@ using System.Net;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace Controller
+namespace SDNCommon
 {
 	public static class Const
 	{

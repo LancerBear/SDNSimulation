@@ -4,7 +4,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace Switch
+namespace SDNCommon
 {
 	/// <summary>
 	/// 存在消息队列中的消息类
