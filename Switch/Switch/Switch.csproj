@@ -57,6 +57,7 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="Common\Packet.cs" />
     <Compile Include="LowerLayer\FileReader.cs" />
     <Compile Include="LowerLayer\Listener.cs" />
     <Compile Include="LowerLayer\PhyPort.cs" />
