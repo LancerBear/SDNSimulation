@@ -1,4 +1,5 @@
 ﻿using SDNCommon;
+using System;
 using System.Net;
 using System.Net.Sockets;
 using System.Threading;
@@ -55,10 +56,26 @@ namespace Switch
 					continue;
 				}
 
-				//如果接收到数据的是从监听端口发出的，就调用处理函数
+				//如果接收到数据的是从监听端口发出的，如果来自控制器，则调用处理函数；否则放入消息队列
 				if (((IPEndPoint)this.epRemotePoint).Port == this.listenPort)
 				{
-					PhyPortManager.GetInstance().HandleReceive(buffer, length, this.listenerNo);
+					PacketInfo packetInfo = new PacketInfo(this.listenerNo, buffer);
+					//物理端口0，来自控制器的消息
+					if (this.listenerNo == 0)
+					{
+						PhyPortManager.GetInstance().HandleReceive(packetInfo);
+					}
+					else
+					{
+						//P操作
+						Program.PktQueueMutex.WaitOne();
+
+						//写队列
+						Program.PacketQueue.Enqueue(packetInfo);
+
+						//V操作
+						Program.PktQueueMutex.ReleaseMutex();
+					}
 				}
 			}
 

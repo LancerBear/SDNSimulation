@@ -63,7 +63,7 @@ namespace Controller
 				//如果接收到数据的是从监听端口发出的，将消息写入消息队列
 				if (((IPEndPoint)this.epRemotePoint).Port == this.listenPort)
 				{
-					PacketInfo packetInfo = new PacketInfo(this.listenPort, buffer);
+					PacketInfo packetInfo = new PacketInfo(this.listenerNo, buffer);
 
 					//P操作
 					Program.PktQueueMutex.WaitOne();

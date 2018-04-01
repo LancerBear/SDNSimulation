@@ -1,27 +1,52 @@
-﻿using SDNCommon;
-using System;
+﻿using System;
+using System.Collections.Generic;
+using System.Linq;
+using System.Text;
+using System.Threading;
+using System.Threading.Tasks;
+using SDNCommon;
 
-namespace Controller
+namespace Switch.AppLayer
 {
-	public static class ControllerApp
+	public static class SwitchApp
 	{
 		/// <summary>
-		/// SDN业务初始化
+		/// 交换机应用初始化
 		/// </summary>
 		/// <returns></returns>
 		public static Const.EN_RET_CODE Init()
 		{
+			//设置处理控制器消息的回调函数
+			DelegateFunc delegateFunc = new DelegateFunc(DealControllerPacket);
+			Transmitter.SetCallBackFunc(delegateFunc);
+			
 			return Const.EN_RET_CODE.EN_RET_SUCC;
 		}
 
 		/// <summary>
-		/// SDN业务开始，函数内死循环，读消息队列后处理
+		/// 交换机程序启动
 		/// </summary>
-		public static void StartApp()
+		public static void Start()
 		{
 			//测试
-			PacketEntity packetEntity = new PacketEntity(new PacketHead("3.3.3.3", "4.4.4.4"), "从控制器发出的消息");
-			Transmitter.SendViaPhyPort(1, Util.ObjectToBytes(packetEntity));
+			if (Program.iCurSwitchID == 0)
+			{
+				int temp = 0;
+				while (++temp < 10)
+				{
+					PacketEntity packet = new PacketEntity(new PacketHead("1.1.1.1", "2.2.2.2"), "Lancer");
+					byte[] buffer = Util.ObjectToBytes(packet);
+					Const.EN_RET_CODE retVal = Transmitter.SendViaPhyPort(1, buffer);
+					Transmitter.SendViaPhyPort(2, buffer);
+					Transmitter.SendViaPhyPort(0, buffer);
+					if (retVal == Const.EN_RET_CODE.EN_RET_PACKET_LENGTH_OVERFOLW)
+					{
+
+					}
+					Console.WriteLine("发送完成");
+					Thread.Sleep(1000);
+				}
+			}
 
 
 			PacketInfo packetInfo = null;
@@ -47,9 +72,9 @@ namespace Controller
 		}
 
 		/// <summary>
-		/// 处理接收到的消息的函数
+		/// 处理消息队列中的消息
 		/// </summary>
-		/// <param name="packetInfo">待处理的消息</param>
+		/// <param name="packetInfo">待处理的消息包</param>
 		public static void DealReceivePacket(PacketInfo packetInfo)
 		{
 			int iPhyPortNo = packetInfo.GetPhyPort();
@@ -60,6 +85,12 @@ namespace Controller
 			string desIP = packet.GetHead().strDesIP;
 			Console.WriteLine("从端口" + iPhyPortNo + "收到消息:" + content);
 			Console.WriteLine("SrcIP: " + srcIP + "\tDesIP" + desIP);
+		}
+
+
+		public static void DealControllerPacket(PacketInfo packetInfo)
+		{
+
 		}
 	}
 }

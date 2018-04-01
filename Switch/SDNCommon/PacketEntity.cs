@@ -8,6 +8,12 @@ namespace SDNCommon
 		private PacketHead head;
 		private string strContent;
 
+		public PacketEntity(PacketHead head, string strContent)
+		{
+			this.head = head;
+			this.strContent = strContent;
+		}
+
 		public PacketHead GetHead()
 		{
 			return this.head;

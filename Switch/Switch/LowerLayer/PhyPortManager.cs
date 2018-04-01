@@ -80,9 +80,9 @@ namespace Switch
 		/// <summary>
 		/// Listener接收到socket包后调用
 		/// </summary>
-		public void HandleReceive(byte[] buffer, int length, int phyPortNo)
+		public void HandleReceive(PacketInfo packetInfo)
 		{
-			Transmitter.CallFunc(buffer, length, phyPortNo);
+			Transmitter.CallFunc(packetInfo);
 		}
 	}
 }

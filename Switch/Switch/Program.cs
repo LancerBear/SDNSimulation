@@ -1,6 +1,8 @@
 ﻿using SDNCommon;
 using System;
-
+using System.Collections.Generic;
+using System.Threading;
+using Switch.AppLayer;
 
 namespace Switch
 {
@@ -8,12 +10,18 @@ namespace Switch
 	/// 委托函数类，可以作为参数传入函数，实现函数指针的功能
 	/// </summary>
 	/// <param name="buffer"></param>
-	public delegate void DelegateFunc(byte[] buffer, int length, int phyPortNo);
+	public delegate void DelegateFunc(PacketInfo packetInfo);
 
 	class Program
 	{
 		//当前交换机的ID
 		public static int iCurSwitchID = Const.INVALID_NUM;
+
+		//消息队列
+		public static Queue<PacketInfo> PacketQueue = new Queue<PacketInfo>();
+
+		//消息队列互斥锁
+		public static Mutex PktQueueMutex = new Mutex();
 
 		static void Main(string[] args)
 		{
@@ -48,6 +56,18 @@ namespace Switch
 				Environment.Exit(0);
 			}
 			Util.Log(Util.EN_LOG_LEVEL.EN_LOG_INFO, "系统初始化完成");
+
+			//交换机应用初始化
+			retVal = SwitchApp.Init();
+			if (retVal != Const.EN_RET_CODE.EN_RET_SUCC)
+			{
+				Util.Log(Util.EN_LOG_LEVEL.EN_LOG_FATAL, "交换机应用初始化失败");
+				Environment.Exit(0);
+			}
+			Util.Log(Util.EN_LOG_LEVEL.EN_LOG_INFO, "交换机应用初始化完成");
+
+			//开始交换机应用，其中死循环
+			SwitchApp.Start();
 		}
 
 		/// <summary>
@@ -66,10 +86,6 @@ namespace Switch
 			}
 			Util.Log(Util.EN_LOG_LEVEL.EN_LOG_INFO, "初始化拓扑完成");
 
-			Test test = new Test();
-			test.Init();
-
-			//TODO SDN模块启动
 			return Const.EN_RET_CODE.EN_RET_SUCC;
 		}
 	}
