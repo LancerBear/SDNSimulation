@@ -1,12 +1,21 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.Text;
 
 namespace SDNCommon
 {
 	[Serializable]
     public class PacketEntity
     {
-		
-    }
+		private PacketHead head;
+		private string strContent;
+
+		public PacketHead GetHead()
+		{
+			return this.head;
+		}
+
+		public string GetContent()
+		{
+			return this.strContent;
+		}
+	}
 }

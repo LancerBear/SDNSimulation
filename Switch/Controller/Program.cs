@@ -33,6 +33,18 @@ namespace Controller
 				Environment.Exit(0);
 			}
 			Util.Log(Util.EN_LOG_LEVEL.EN_LOG_INFO, "系统初始化完成");
+
+			//进行控制器应用的初始化
+			retVal = ControllerApp.Init();
+			if (retVal != Const.EN_RET_CODE.EN_RET_SUCC)
+			{
+				Util.Log(Util.EN_LOG_LEVEL.EN_LOG_FATAL, "控制器初始化失败");
+				Environment.Exit(0);
+			}
+			Util.Log(Util.EN_LOG_LEVEL.EN_LOG_INFO, "控制器初始化完成");
+
+			//开始控制器应用
+			ControllerApp.StartApp();
 		}
 
 		/// <summary>

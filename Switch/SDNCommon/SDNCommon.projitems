@@ -12,6 +12,7 @@
     <Compile Include="$(MSBuildThisFileDirectory)Const.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)PacketEntity.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)PacketInfo.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)PakcetHead.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Util.cs" />
   </ItemGroup>
 </Project>

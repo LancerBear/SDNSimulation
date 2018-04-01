@@ -1,14 +1,13 @@
 ﻿using SDNCommon;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 
 namespace Controller
 {
 	public static class ControllerApp
 	{
+		/// <summary>
+		/// SDN业务初始化
+		/// </summary>
+		/// <returns></returns>
 		public static Const.EN_RET_CODE Init()
 		{
 			return Const.EN_RET_CODE.EN_RET_SUCC;
@@ -19,10 +18,10 @@ namespace Controller
 		/// </summary>
 		public static void StartApp()
 		{
-			PacketInfo packet = null;
+			PacketInfo packetInfo = null;
 			while (true)
 			{
-				packet = null;
+				packetInfo = null;
 
 				//P操作
 				Program.PktQueueMutex.WaitOne();
@@ -33,15 +32,19 @@ namespace Controller
 					continue;
 				}
 				//消息队列不为空，消息包出队后进行V操作
-				packet = Program.PacketQueue.Dequeue();
+				packetInfo = Program.PacketQueue.Dequeue();
 				Program.PktQueueMutex.ReleaseMutex();
 
-				
+				//处理接收到的消息
+				DealReceivePacket(packetInfo);
 			}
 		}
 
-
-		public static void DealReceivePacket()
+		/// <summary>
+		/// 处理接收到的消息的函数
+		/// </summary>
+		/// <param name="packetInfo">待处理的消息</param>
+		public static void DealReceivePacket(PacketInfo packetInfo)
 		{
 
 		}

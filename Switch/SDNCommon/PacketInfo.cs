@@ -1,9 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-
+﻿
 namespace SDNCommon
 {
 	/// <summary>
@@ -12,12 +7,12 @@ namespace SDNCommon
 	public class PacketInfo
 	{
 		private int iPhyPortNo;
-		private PacketEntity packetEntity;
+		private byte[] packetByte;
 
-		public PacketInfo(int iPhyPortNo, PacketEntity packetEntity)
+		public PacketInfo(int iPhyPortNo, byte[] pakcetByte)
 		{
 			this.iPhyPortNo = iPhyPortNo;
-			this.packetEntity = packetEntity;
+			this.packetByte = pakcetByte;
 		}
 
 		public int GetPhyPort()
@@ -25,9 +20,9 @@ namespace SDNCommon
 			return this.iPhyPortNo;
 		}
 
-		public PacketEntity GetPacketEntity()
+		public byte[] GetPacketByte()
 		{
-			return this.packetEntity;
+			return this.packetByte;
 		}
 	}
 }
