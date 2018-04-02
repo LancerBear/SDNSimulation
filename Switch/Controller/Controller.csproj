@@ -55,6 +55,11 @@
   <ItemGroup>
     <None Include="App.config" />
   </ItemGroup>
-  <Import Project="..\SDNCommon\SDNCommon.projitems" Label="Shared" />
+  <ItemGroup>
+    <ProjectReference Include="..\Switch\Switch.csproj">
+      <Project>{6ebaada5-97aa-42d5-b308-4d85766cc703}</Project>
+      <Name>Switch</Name>
+    </ProjectReference>
+  </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
 </Project>

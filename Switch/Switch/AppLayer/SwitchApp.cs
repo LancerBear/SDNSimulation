@@ -88,9 +88,20 @@ namespace Switch.AppLayer
 		}
 
 
+		/// <summary>
+		/// 阻塞的方式处理控制器的消息，处理完之前无法接受控制器消息
+		/// </summary>
+		/// <param name="packetInfo"></param>
 		public static void DealControllerPacket(PacketInfo packetInfo)
 		{
-
+			int iPhyPortNo = packetInfo.GetPhyPort();
+			byte[] buffer = packetInfo.GetPacketByte();
+			PacketEntity packet = (PacketEntity)Util.BytesToObject(buffer);
+			string content = packet.GetContent();
+			string srcIP = packet.GetHead().strSrcIP;
+			string desIP = packet.GetHead().strDesIP;
+			Console.WriteLine("从控制器收到消息:" + content);
+			Console.WriteLine("SrcIP: " + srcIP + "\tDesIP" + desIP);
 		}
 	}
 }

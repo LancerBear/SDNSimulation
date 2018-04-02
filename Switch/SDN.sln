@@ -12,7 +12,6 @@ EndProject
 Global
 	GlobalSection(SharedMSBuildProjectFiles) = preSolution
 		SDNCommon\SDNCommon.projitems*{4eee1165-1a82-4b98-954c-6ae2969a8263}*SharedItemsImports = 13
-		SDNCommon\SDNCommon.projitems*{55b21384-b472-493a-a1df-dbd0838ee246}*SharedItemsImports = 4
 		SDNCommon\SDNCommon.projitems*{6ebaada5-97aa-42d5-b308-4d85766cc703}*SharedItemsImports = 4
 	EndGlobalSection
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution

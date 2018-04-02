@@ -19,14 +19,15 @@ namespace Controller
 		/// </summary>
 		public static void StartApp()
 		{
-			//测试
-			PacketEntity packetEntity = new PacketEntity(new PacketHead("3.3.3.3", "4.4.4.4"), "从控制器发出的消息");
-			Transmitter.SendViaPhyPort(1, Util.ObjectToBytes(packetEntity));
-
-
 			PacketInfo packetInfo = null;
 			while (true)
 			{
+
+				//测试
+				PacketEntity packetEntity = new PacketEntity(new PacketHead("3.3.3.3", "4.4.4.4"), "从控制器发出的消息");
+				Transmitter.SendViaPhyPort(0, Util.ObjectToBytes(packetEntity));
+				//测试
+
 				packetInfo = null;
 
 				//P操作
@@ -43,6 +44,7 @@ namespace Controller
 
 				//处理接收到的消息
 				DealReceivePacket(packetInfo);
+
 			}
 		}
 
