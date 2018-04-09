@@ -14,8 +14,52 @@
 	<controllerPort>10003</controllerPort>
 </controller>
 
+<controller>
+	<switchID>2</switchID>
+	<switchPort>10004</switchPort>
+	<controllerPort>10005</controllerPort>
+</controller>
+
+<controller>
+	<switchID>3</switchID>
+	<switchPort>10006</switchPort>
+	<controllerPort>10007</controllerPort>
+</controller>
+
+<controller>
+	<switchID>4</switchID>
+	<switchPort>10008</switchPort>
+	<controllerPort>10009</controllerPort>
+</controller>
+
+<controller>
+	<switchID>5</switchID>
+	<switchPort>10010</switchPort>
+	<controllerPort>10011</controllerPort>
+</controller>
+
+<controller>
+	<switchID>6</switchID>
+	<switchPort>10012</switchPort>
+	<controllerPort>10013</controllerPort>
+</controller>
+
+<controller>
+	<switchID>7</switchID>
+	<switchPort>10014</switchPort>
+	<controllerPort>10015</controllerPort>
+</controller>
+
+<controller>
+	<switchID>8</switchID>
+	<switchPort>10016</switchPort>
+	<controllerPort>10017</controllerPort>
+</controller>
+
+
+
 <pair>
-	<distance>2043</distance>
+	<distance>2475</distance>
 
 	<switch>
 		<id>0</id>
@@ -31,7 +75,7 @@
 </pair>
 
 <pair>
-	<distance>1797</distance>
+	<distance>2987</distance>
 
 	<switch>
 		<id>0</id>
@@ -40,9 +84,180 @@
 	</switch>
 
 	<switch>
-		<id>1</id>
-		<PhyPortNo>2</PhyPortNo>
+		<id>3</id>
+		<PhyPortNo>1</PhyPortNo>
 		<LocalPortNum>8003</LocalPortNum>
+	</switch>
+</pair>
+
+<pair>
+	<distance>2996</distance>
+
+	<switch>
+		<id>0</id>
+		<PhyPortNo>3</PhyPortNo> 
+		<LocalPortNum>8004</LocalPortNum>
+	</switch>
+
+	<switch>
+		<id>2</id>
+		<PhyPortNo>3</PhyPortNo>
+		<LocalPortNum>8005</LocalPortNum>
+	</switch>
+</pair>
+
+<pair>
+	<distance>1785</distance>
+
+	<switch>
+		<id>1</id>
+		<PhyPortNo>2</PhyPortNo> 
+		<LocalPortNum>8006</LocalPortNum>
+	</switch>
+
+	<switch>
+		<id>2</id>
+		<PhyPortNo>1</PhyPortNo>
+		<LocalPortNum>8007</LocalPortNum>
+	</switch>
+</pair>
+
+<pair>
+	<distance>2608</distance>
+
+	<switch>
+		<id>1</id>
+		<PhyPortNo>3</PhyPortNo> 
+		<LocalPortNum>8008</LocalPortNum>
+	</switch>
+
+	<switch>
+		<id>4</id>
+		<PhyPortNo>1</PhyPortNo>
+		<LocalPortNum>8009</LocalPortNum>
+	</switch>
+</pair>
+
+<pair>
+	<distance>3007</distance>
+
+	<switch>
+		<id>2</id>
+		<PhyPortNo>2</PhyPortNo> 
+		<LocalPortNum>8010</LocalPortNum>
+	</switch>
+
+	<switch>
+		<id>5</id>
+		<PhyPortNo>1</PhyPortNo>
+		<LocalPortNum>8011</LocalPortNum>
+	</switch>
+</pair>
+
+<pair>
+	<distance>2758</distance>
+
+	<switch>
+		<id>3</id>
+		<PhyPortNo>2</PhyPortNo> 
+		<LocalPortNum>8012</LocalPortNum>
+	</switch>
+
+	<switch>
+		<id>7</id>
+		<PhyPortNo>1</PhyPortNo>
+		<LocalPortNum>8013</LocalPortNum>
+	</switch>
+</pair>
+
+<pair>
+	<distance>1976</distance>
+
+	<switch>
+		<id>3</id>
+		<PhyPortNo>3</PhyPortNo> 
+		<LocalPortNum>8014</LocalPortNum>
+	</switch>
+
+	<switch>
+		<id>5</id>
+		<PhyPortNo>3</PhyPortNo>
+		<LocalPortNum>8015</LocalPortNum>
+	</switch>
+</pair>
+
+<pair>
+	<distance>2004</distance>
+	<switch>
+		<id>4</id>
+		<PhyPortNo>2</PhyPortNo> 
+		<LocalPortNum>8016</LocalPortNum>
+	</switch>
+
+	<switch>
+		<id>8</id>
+		<PhyPortNo>3</PhyPortNo>
+		<LocalPortNum>8017</LocalPortNum>
+	</switch>
+</pair>
+
+<pair>
+	<distance>2756</distance>
+	<switch>
+		<id>4</id>
+		<PhyPortNo>3</PhyPortNo> 
+		<LocalPortNum>8018</LocalPortNum>
+	</switch>
+
+	<switch>
+		<id>6</id>
+		<PhyPortNo>2</PhyPortNo>
+		<LocalPortNum>8019</LocalPortNum>
+	</switch>
+</pair>
+
+<pair>
+	<distance>2594</distance>
+	<switch>
+		<id>5</id>
+		<PhyPortNo>2</PhyPortNo> 
+		<LocalPortNum>8020</LocalPortNum>
+	</switch>
+
+	<switch>
+		<id>8</id>
+		<PhyPortNo>1</PhyPortNo>
+		<LocalPortNum>8021</LocalPortNum>
+	</switch>
+</pair>
+
+<pair>
+	<distance>2954</distance>
+	<switch>
+		<id>6</id>
+		<PhyPortNo>1</PhyPortNo> 
+		<LocalPortNum>8022</LocalPortNum>
+	</switch>
+
+	<switch>
+		<id>8</id>
+		<PhyPortNo>2</PhyPortNo>
+		<LocalPortNum>8023</LocalPortNum>
+	</switch>
+</pair>
+
+<pair>
+	<distance>2963</distance>
+	<switch>
+		<id>6</id>
+		<PhyPortNo>3</PhyPortNo> 
+		<LocalPortNum>8024</LocalPortNum>
+	</switch>
+
+	<switch>
+		<id>7</id>
+		<PhyPortNo>3</PhyPortNo>
+		<LocalPortNum>8025</LocalPortNum>
 	</switch>
 </pair>
 
