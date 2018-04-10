@@ -58,7 +58,6 @@ namespace Controller
 			int sendBytes = this.socket.SendTo(buffer, buffer.Length, SocketFlags.None, this.epRemptePoint);
 			if (sendBytes == 0)
 				return Const.EN_RET_CODE.EN_RET_ERR;
-			Console.WriteLine("发送完毕");
 			return Const.EN_RET_CODE.EN_RET_SUCC;
 		}
 	}

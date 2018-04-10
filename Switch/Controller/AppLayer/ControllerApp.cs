@@ -23,10 +23,10 @@ namespace Controller
 			while (true)
 			{
 
-				//测试
-				PacketEntity packetEntity = new PacketEntity(new PacketHead("3.3.3.3", "4.4.4.4"), "从控制器发出的消息");
-				Transmitter.SendViaPhyPort(0, Util.ObjectToBytes(packetEntity));
-				//测试
+				////测试
+				//PacketEntity packetEntity = new PacketEntity(new PacketHead("3.3.3.3", "4.4.4.4"), "从控制器发出的消息");
+				//Transmitter.SendViaPhyPort(0, Util.ObjectToBytes(packetEntity));
+				////测试
 
 				packetInfo = null;
 
@@ -60,8 +60,28 @@ namespace Controller
 			string content = packet.GetContent();
 			string srcIP = packet.GetHead().strSrcIP;
 			string desIP = packet.GetHead().strDesIP;
-			Console.WriteLine("从端口" + iPhyPortNo + "收到消息:" + content);
-			Console.WriteLine("SrcIP: " + srcIP + "\tDesIP" + desIP);
+			PacketHead.EN_PACKET_TYPE packetType = packet.GetHead().enPacketType;
+			//Console.WriteLine("从端口" + iPhyPortNo + "收到消息:" + content);
+			//Console.WriteLine("SrcIP: " + srcIP + "\tDesIP: " + desIP);
+
+			Const.EN_RET_CODE retVal = Const.EN_RET_CODE.EN_RET_INIT;
+
+			switch(packetType)
+			{
+				case PacketHead.EN_PACKET_TYPE.EN_SWITCH_ONLINE:
+					Util.Log(Util.EN_LOG_LEVEL.EN_LOG_INFO, "交换机" + iPhyPortNo + "上线");
+					PacketHead head = new PacketHead("", "", PacketHead.EN_PACKET_TYPE.EN_ACK_SWITCH_ONLINE);
+					PacketEntity ackPakcet = new PacketEntity(head, "");
+					retVal = Transmitter.SendViaPhyPort(iPhyPortNo, Util.ObjectToBytes(ackPakcet));
+					if (Const.EN_RET_CODE.EN_RET_SUCC != retVal)
+					{
+						Util.Log(Util.EN_LOG_LEVEL.EN_LOG_FATAL, "交换机上线ACK发送失败");
+					}
+					break;
+
+				default:
+					break;
+			}
 		}
 	}
 }

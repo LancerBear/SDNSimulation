@@ -28,30 +28,48 @@ namespace Switch.AppLayer
 		/// </summary>
 		public static void Start()
 		{
-			//测试
-			if (Program.iCurSwitchID == 0)
-			{
-				int temp = 0;
-				while (++temp < 10)
-				{
-					PacketEntity packet = new PacketEntity(new PacketHead("1.1.1.1", "2.2.2.2"), "Lancer");
-					byte[] buffer = Util.ObjectToBytes(packet);
-					Const.EN_RET_CODE retVal = Transmitter.SendViaPhyPort(1, buffer);
-					Transmitter.SendViaPhyPort(2, buffer);
-					Transmitter.SendViaPhyPort(0, buffer);
-					if (retVal == Const.EN_RET_CODE.EN_RET_PACKET_LENGTH_OVERFOLW)
-					{
+			////测试
+			//if (Program.iCurSwitchID == 0)
+			//{
+			//	int temp = 0;
+			//	while (++temp < 10)
+			//	{
+			//		PacketEntity packet = new PacketEntity(new PacketHead("1.1.1.1", "2.2.2.2"), "Lancer");
+			//		byte[] buffer = Util.ObjectToBytes(packet);
+			//		Const.EN_RET_CODE retVal = Transmitter.SendViaPhyPort(1, buffer);
+			//		Transmitter.SendViaPhyPort(2, buffer);
+			//		Transmitter.SendViaPhyPort(0, buffer);
+			//		if (retVal == Const.EN_RET_CODE.EN_RET_PACKET_LENGTH_OVERFOLW)
+			//		{
 
-					}
-					Console.WriteLine("发送完成");
-					Thread.Sleep(1000);
-				}
-			}
+			//		}
+			//		Console.WriteLine("发送完成");
+			//		Thread.Sleep(1000);
+			//	}
+			//}
 
+			
 
 			PacketInfo packetInfo = null;
+			bool firstLoop = true;
 			while (true)
 			{
+				if (firstLoop)
+				{
+					//发送初始化完成信息给控制器
+					PacketHead head = new PacketHead("", "", PacketHead.EN_PACKET_TYPE.EN_SWITCH_ONLINE);
+					PacketEntity packet = new PacketEntity(head, "");
+					Const.EN_RET_CODE retVal = Const.EN_RET_CODE.EN_RET_INIT;
+					retVal = Transmitter.SendViaPhyPort(0, Util.ObjectToBytes(packet));
+
+					if (Const.EN_RET_CODE.EN_RET_SUCC != retVal)
+					{
+						//TODO
+						Util.Log(Util.EN_LOG_LEVEL.EN_LOG_FATAL, "初始化完成信息发送失败");
+					}
+					firstLoop = false;
+				}
+
 				packetInfo = null;
 
 				//P操作
@@ -83,8 +101,10 @@ namespace Switch.AppLayer
 			string content = packet.GetContent();
 			string srcIP = packet.GetHead().strSrcIP;
 			string desIP = packet.GetHead().strDesIP;
-			Console.WriteLine("从端口" + iPhyPortNo + "收到消息:" + content);
-			Console.WriteLine("SrcIP: " + srcIP + "\tDesIP" + desIP);
+			PacketHead.EN_PACKET_TYPE pakcetType = packet.GetHead().enPacketType;
+			//Console.WriteLine("从端口" + iPhyPortNo + "收到消息:" + content);
+			//Console.WriteLine("SrcIP: " + srcIP + "\tDesIP" + desIP);
+
 		}
 
 
@@ -100,8 +120,17 @@ namespace Switch.AppLayer
 			string content = packet.GetContent();
 			string srcIP = packet.GetHead().strSrcIP;
 			string desIP = packet.GetHead().strDesIP;
-			Console.WriteLine("从控制器收到消息:" + content);
-			Console.WriteLine("SrcIP: " + srcIP + "\tDesIP" + desIP);
+			PacketHead.EN_PACKET_TYPE pakcetType = packet.GetHead().enPacketType;
+
+			switch (pakcetType)
+			{
+				case PacketHead.EN_PACKET_TYPE.EN_ACK_SWITCH_ONLINE:
+					Util.Log(Util.EN_LOG_LEVEL.EN_LOG_INFO, "控制器上线");
+					break;
+
+				default:
+					break;
+			}
 		}
 	}
 }
