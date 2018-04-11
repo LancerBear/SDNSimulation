@@ -1,0 +1,165 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<diagram program="umlet" version="14.2">
+  <zoom_level>6</zoom_level>
+  <element>
+    <id>UMLClass</id>
+    <coordinates>
+      <x>66</x>
+      <y>246</y>
+      <w>180</w>
+      <h>114</h>
+    </coordinates>
+    <panel_attributes>PhyPort
+--
+-int PhyPortNo
+-int iRecPort
+-int iSendPort
+-Socket socket
+-EndPoint epRemotePoint
+-IPEndPoint ipepLocalPoint
+-byte[] byteBuffer
+--
++PhyPort(recPort, sendPort)
++Send(buffer)</panel_attributes>
+    <additional_attributes/>
+  </element>
+  <element>
+    <id>UMLClass</id>
+    <coordinates>
+      <x>378</x>
+      <y>264</y>
+      <w>198</w>
+      <h>78</h>
+    </coordinates>
+    <panel_attributes>单例 PortManager
+--
+-List&lt;PhyPort&gt; portList
+-List&lt;Listener&gt; listenerList
+--
++PortManager()
++AddPort(int portNo, recPort, sendPort)
++SendViaPort(PortNo, buffer)</panel_attributes>
+    <additional_attributes/>
+  </element>
+  <element>
+    <id>UMLClass</id>
+    <coordinates>
+      <x>378</x>
+      <y>450</y>
+      <w>204</w>
+      <h>90</h>
+    </coordinates>
+    <panel_attributes>Listener
+--
+-int ListenerNo
+-int ListenPort
+-Thread listenerThread
+-Socket listenerSocket
+-EndPoint epRemotePoint
+--
++Listener(PyhPort p)
+-ListenHandleFunc() 
+</panel_attributes>
+    <additional_attributes/>
+  </element>
+  <element>
+    <id>UMLClass</id>
+    <coordinates>
+      <x>384</x>
+      <y>162</y>
+      <w>180</w>
+      <h>60</h>
+    </coordinates>
+    <panel_attributes>static Transmitter
+--
++DelegateCallBackFunc func;
+--
++static sendTo(portNo, buffer)
++setCallBackFunc(delegatFunc)
+</panel_attributes>
+    <additional_attributes/>
+  </element>
+  <element>
+    <id>Relation</id>
+    <coordinates>
+      <x>432</x>
+      <y>336</y>
+      <w>18</w>
+      <h>126</h>
+    </coordinates>
+    <panel_attributes>lt=&lt;&lt;&lt;&lt;-[4]</panel_attributes>
+    <additional_attributes>10.0;10.0;10.0;190.0</additional_attributes>
+  </element>
+  <element>
+    <id>Relation</id>
+    <coordinates>
+      <x>240</x>
+      <y>300</y>
+      <w>150</w>
+      <h>18</h>
+    </coordinates>
+    <panel_attributes>lt=&lt;&lt;&lt;&lt;-[4]</panel_attributes>
+    <additional_attributes>230.0;10.0;10.0;10.0</additional_attributes>
+  </element>
+  <element>
+    <id>UMLClass</id>
+    <coordinates>
+      <x>696</x>
+      <y>258</y>
+      <w>126</w>
+      <h>78</h>
+    </coordinates>
+    <panel_attributes>static FileReader
+--
+InitFromFile()
+</panel_attributes>
+    <additional_attributes/>
+  </element>
+  <element>
+    <id>Relation</id>
+    <coordinates>
+      <x>570</x>
+      <y>294</y>
+      <w>138</w>
+      <h>18</h>
+    </coordinates>
+    <panel_attributes>lt=&lt;.</panel_attributes>
+    <additional_attributes>10.0;10.0;210.0;10.0</additional_attributes>
+  </element>
+  <element>
+    <id>Relation</id>
+    <coordinates>
+      <x>462</x>
+      <y>216</y>
+      <w>18</w>
+      <h>60</h>
+    </coordinates>
+    <panel_attributes>lt=&lt;.</panel_attributes>
+    <additional_attributes>10.0;80.0;10.0;10.0</additional_attributes>
+  </element>
+  <element>
+    <id>UMLClass</id>
+    <coordinates>
+      <x>378</x>
+      <y>36</y>
+      <w>186</w>
+      <h>54</h>
+    </coordinates>
+    <panel_attributes>SDNClass
+--
+
+</panel_attributes>
+    <additional_attributes/>
+  </element>
+  <element>
+    <id>Relation</id>
+    <coordinates>
+      <x>456</x>
+      <y>84</y>
+      <w>18</w>
+      <h>90</h>
+    </coordinates>
+    <panel_attributes>lt=&lt;.</panel_attributes>
+    <additional_attributes>10.0;130.0;10.0;10.0</additional_attributes>
+  </element>
+</diagram>

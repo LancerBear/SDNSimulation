@@ -11,6 +11,8 @@ namespace SDNCommon
 			EN_DEFAULT_TYPE = 0,
 			EN_SWITCH_ONLINE,
 			EN_ACK_SWITCH_ONLINE,
+			EN_PACKET_IN,
+			EN_PACKET_OUT
 		}
 		public string strSrcIP;
 		public string strDesIP;

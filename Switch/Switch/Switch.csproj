@@ -57,6 +57,8 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="AppLayer\FlowTable.cs" />
+    <Compile Include="AppLayer\FlowTableItem.cs" />
     <Compile Include="AppLayer\SwitchApp.cs" />
     <Compile Include="LowerLayer\FileReader.cs" />
     <Compile Include="LowerLayer\Listener.cs" />

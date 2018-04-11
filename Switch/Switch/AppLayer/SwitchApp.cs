@@ -52,6 +52,7 @@ namespace Switch.AppLayer
 
 			PacketInfo packetInfo = null;
 			bool firstLoop = true;
+			Const.EN_RET_CODE retVal = Const.EN_RET_CODE.EN_RET_INIT;
 			while (true)
 			{
 				if (firstLoop)
@@ -59,7 +60,6 @@ namespace Switch.AppLayer
 					//发送初始化完成信息给控制器
 					PacketHead head = new PacketHead("", "", PacketHead.EN_PACKET_TYPE.EN_SWITCH_ONLINE);
 					PacketEntity packet = new PacketEntity(head, "");
-					Const.EN_RET_CODE retVal = Const.EN_RET_CODE.EN_RET_INIT;
 					retVal = Transmitter.SendViaPhyPort(0, Util.ObjectToBytes(packet));
 
 					if (Const.EN_RET_CODE.EN_RET_SUCC != retVal)
@@ -101,7 +101,28 @@ namespace Switch.AppLayer
 			string content = packet.GetContent();
 			string srcIP = packet.GetHead().strSrcIP;
 			string desIP = packet.GetHead().strDesIP;
-			PacketHead.EN_PACKET_TYPE pakcetType = packet.GetHead().enPacketType;
+			PacketHead.EN_PACKET_TYPE packetType = packet.GetHead().enPacketType;
+
+			Const.EN_RET_CODE retVal = Const.EN_RET_CODE.EN_RET_INIT;
+			int tranPort = Const.INVALID_NUM;
+
+			//流表中存在转发选项，直接转发
+			if (FlowTable.GetInstance().TryGetItem(desIP, out tranPort))
+			{
+				retVal = Transmitter.SendViaPhyPort(tranPort, buffer);
+				if (Const.EN_RET_CODE.EN_RET_SUCC != retVal)
+				{
+					Util.Log(Util.EN_LOG_LEVEL.EN_LOG_INFO, "数据包转发失败");
+				}
+			}
+			//流表中不存在转发选项，将数据包暂存缓冲区，上报控制器
+			else
+			{
+				Program.BufferQueue.Enqueue(packetInfo);
+				PacketHead head = new PacketHead(srcIP, desIP, PacketHead.EN_PACKET_TYPE.EN_PACKET_IN);
+				PacketEntity packetIn = new PacketEntity(head, "");
+				retVal = Transmitter.SendViaPhyPort(0, Util.ObjectToBytes(packetIn));
+			}
 			//Console.WriteLine("从端口" + iPhyPortNo + "收到消息:" + content);
 			//Console.WriteLine("SrcIP: " + srcIP + "\tDesIP" + desIP);
 
@@ -120,14 +141,17 @@ namespace Switch.AppLayer
 			string content = packet.GetContent();
 			string srcIP = packet.GetHead().strSrcIP;
 			string desIP = packet.GetHead().strDesIP;
-			PacketHead.EN_PACKET_TYPE pakcetType = packet.GetHead().enPacketType;
+			PacketHead.EN_PACKET_TYPE packetType = packet.GetHead().enPacketType;
 
-			switch (pakcetType)
+			switch (packetType)
 			{
 				case PacketHead.EN_PACKET_TYPE.EN_ACK_SWITCH_ONLINE:
 					Util.Log(Util.EN_LOG_LEVEL.EN_LOG_INFO, "控制器上线");
 					break;
 
+				case PacketHead.EN_PACKET_TYPE.EN_PACKET_OUT:
+
+					break;
 				default:
 					break;
 			}

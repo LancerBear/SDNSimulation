@@ -23,6 +23,9 @@ namespace Switch
 		//消息队列互斥锁
 		public static Mutex PktQueueMutex = new Mutex();
 
+		//接收到的没有匹配流表的缓冲区
+		public static Queue<PacketInfo> BufferQueue = new Queue<PacketInfo>();
+
 		static void Main(string[] args)
 		{
 			Util.Log(Util.EN_LOG_LEVEL.EN_LOG_INFO, "系统启动");
