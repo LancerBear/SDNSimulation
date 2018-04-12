@@ -98,31 +98,18 @@ namespace Switch.AppLayer
 			int iPhyPortNo = packetInfo.GetPhyPort();
 			byte[] buffer = packetInfo.GetPacketByte();
 			PacketEntity packet = (PacketEntity)Util.BytesToObject(buffer);
-			string content = packet.GetContent();
-			string srcIP = packet.GetHead().strSrcIP;
-			string desIP = packet.GetHead().strDesIP;
 			PacketHead.EN_PACKET_TYPE packetType = packet.GetHead().enPacketType;
 
-			Const.EN_RET_CODE retVal = Const.EN_RET_CODE.EN_RET_INIT;
-			int tranPort = Const.INVALID_NUM;
+			switch (packetType)
+			{
+				case PacketHead.EN_PACKET_TYPE.EN_NORMAL_PACKET:
+					TranNormalPacket(packetInfo);
+					break;
 
-			//流表中存在转发选项，直接转发
-			if (FlowTable.GetInstance().TryGetItem(desIP, out tranPort))
-			{
-				retVal = Transmitter.SendViaPhyPort(tranPort, buffer);
-				if (Const.EN_RET_CODE.EN_RET_SUCC != retVal)
-				{
-					Util.Log(Util.EN_LOG_LEVEL.EN_LOG_INFO, "数据包转发失败");
-				}
+				default:
+					break;
 			}
-			//流表中不存在转发选项，将数据包暂存缓冲区，上报控制器
-			else
-			{
-				Program.BufferQueue.Enqueue(packetInfo);
-				PacketHead head = new PacketHead(srcIP, desIP, PacketHead.EN_PACKET_TYPE.EN_PACKET_IN);
-				PacketEntity packetIn = new PacketEntity(head, "");
-				retVal = Transmitter.SendViaPhyPort(0, Util.ObjectToBytes(packetIn));
-			}
+			
 			//Console.WriteLine("从端口" + iPhyPortNo + "收到消息:" + content);
 			//Console.WriteLine("SrcIP: " + srcIP + "\tDesIP" + desIP);
 
@@ -150,10 +137,48 @@ namespace Switch.AppLayer
 					break;
 
 				case PacketHead.EN_PACKET_TYPE.EN_PACKET_OUT:
-
+					//TODO
 					break;
 				default:
 					break;
+			}
+		}
+
+		/// <summary>
+		/// 转发常规数据包
+		/// </summary>
+		/// <param name="packetInfo"></param>
+		/// <returns></returns>
+		public static void TranNormalPacket(PacketInfo packetInfo)
+		{
+			byte[] packetByte = packetInfo.GetPacketByte();
+			PacketEntity packetEntity = (PacketEntity)Util.BytesToObject(packetByte);
+			string srcIP = packetEntity.GetHead().strSrcIP;
+			string desIP = packetEntity.GetHead().strDesIP;
+
+			Const.EN_RET_CODE retVal = Const.EN_RET_CODE.EN_RET_INIT;
+			int tranPort = Const.INVALID_NUM;
+
+			//流表中存在转发选项，直接转发
+			if (FlowTable.GetInstance().TryGetItem(desIP, out tranPort))
+			{
+				retVal = Transmitter.SendViaPhyPort(tranPort, packetByte);
+				if (Const.EN_RET_CODE.EN_RET_SUCC != retVal)
+				{
+					Util.Log(Util.EN_LOG_LEVEL.EN_LOG_INFO, "数据包转发失败");
+				}
+			}
+			//流表中不存在转发选项，将数据包暂存缓冲区，上报控制器
+			else
+			{
+				Program.BufferQueue.Enqueue(packetInfo);
+				PacketHead head = new PacketHead(srcIP, desIP, PacketHead.EN_PACKET_TYPE.EN_PACKET_IN);
+				PacketEntity packetIn = new PacketEntity(head, "");
+				retVal = Transmitter.SendViaPhyPort(0, Util.ObjectToBytes(packetIn));
+				if (retVal != Const.EN_RET_CODE.EN_RET_SUCC)
+				{
+					Util.Log(Util.EN_LOG_LEVEL.EN_LOG_INFO, "packet_in发送失败");
+				}
 			}
 		}
 	}

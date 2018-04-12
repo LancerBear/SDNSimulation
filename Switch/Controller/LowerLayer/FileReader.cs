@@ -187,6 +187,12 @@ namespace Controller
 					{
 						Util.Log(Util.EN_LOG_LEVEL.EN_LOG_FATAL, "添加物理端口失败");
 					}
+
+					//记录最大交换机ID
+					if (iSwitchID > Program.iMaxSwitchID)
+					{
+						Program.iMaxSwitchID = iSwitchID;
+					}
 				}
 			}
 			catch (XmlException)

@@ -19,6 +19,10 @@ namespace Controller
 		//消息队列互斥锁
 		public static Mutex PktQueueMutex = new Mutex();
 
+		//当前拓扑结构中最大交换机ID
+		public static int iMaxSwitchID = Const.INVALID_NUM;
+
+
 		static void Main(string[] args)
 		{
 			Util.Log(Util.EN_LOG_LEVEL.EN_LOG_INFO, "控制器启动");
@@ -86,6 +90,26 @@ namespace Controller
 				}
 			}
 			return Const.EN_RET_CODE.EN_RET_SUCC;
+		}
+
+		/// <summary>
+		/// 打印矩阵信息
+		/// </summary>
+		public static void ShowPathInfo()
+		{
+			for (int i = 0; i < iMaxSwitchID + 1; i++)
+			{
+				Console.Write(i + "\t");
+			}
+			Console.Write("\n");
+			for (int i = 0; i < iMaxSwitchID + 1; i++)
+			{
+				for (int j = 0; j < iMaxSwitchID + 1; j++)
+				{
+					Console.Write(PathInfoArr[i, j].distance + "\t");
+				}
+				Console.Write("\n\n");
+			}
 		}
 	}
 }
