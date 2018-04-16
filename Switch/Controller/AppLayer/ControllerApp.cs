@@ -1,5 +1,7 @@
 ﻿using SDNCommon;
 using System;
+using System.Collections.Generic;
+using System.Linq;
 
 namespace Controller
 {
@@ -208,26 +210,48 @@ namespace Controller
 			//}
 			//Console.Write("\n");
 
-			////遍历找到最短路的终点
-			//for (int i = 0; i < Program.iMaxSwitchID + 1; i++)
-			//{
-			//	if (!isInPath[i])
-			//		continue;
-			//	if (i == srcSwitchID)
-			//		continue;
+			Dictionary<string, int> dictionary = new Dictionary<string, int>();
 
-			//	//TODO
-			//	int curID = desSwitchID;
-			//	int preID = preSwitchID[curID];
+			//遍历找到最短路的终点
+			for (int i = 0; i < Program.iMaxSwitchID + 1; i++)
+			{
+				if (!isInPath[i])
+					continue;
+				if (i == srcSwitchID)
+					continue;
 
-			//	Console.WriteLine("Path: ");
-			//	while (preID != Const.INVALID_NUM)
-			//	{
-			//		Console.WriteLine(curID);
-			//		curID = preID;
-			//		preID = preSwitchID[curID];
-			//	}
-			//}
+				//TODO
+				int curID = i;
+				int preID = preSwitchID[curID];
+
+				//Console.WriteLine("Path: ");
+				while (preSwitchID[preID] != Const.INVALID_NUM)
+				{
+					//Console.WriteLine(curID);
+					curID = preID;
+					preID = preSwitchID[curID];
+				}
+				//此时curID是下一跳的交换机
+				//Console.WriteLine(curID);
+				int transPort = Program.PathInfoArr[srcSwitchID, curID].phyPortNo;
+
+				dictionary.Add(GetSwitchIPByID(i), transPort);
+			}
+
+			for (int i = 0; i < dictionary.Count; i++)
+			{
+				Console.Write(dictionary.ElementAt(i).Key);
+				Console.Write(dictionary.ElementAt(i).Value);
+				Console.Write("\n");
+			}
+
+			PacketHead head = new PacketHead("", "", PacketHead.EN_PACKET_TYPE.EN_PACKET_OUT);
+			PacketEntity packetOut = new PacketEntity(head, Util.ObjectToBytes(dictionary));
+			retVal = Transmitter.SendViaPhyPort(srcSwitchID, Util.ObjectToBytes(packetOut));
+			if (retVal != Const.EN_RET_CODE.EN_RET_SUCC)
+			{
+				Util.Log(Util.EN_LOG_LEVEL.EN_LOG_INFO, "packet_out 发送失败");
+			}
 			//Console.WriteLine("distance: ");
 			//for (int i = 0; i < Program.iMaxSwitchID + 1; i++)
 			//{
@@ -246,6 +270,17 @@ namespace Controller
 		{
 			//TODO
 			return 3;
+		}
+
+		/// <summary>
+		/// 根据交换机的ID查找IP
+		/// </summary>
+		/// <param name="strIP"></param>
+		/// <returns></returns>
+		public static string GetSwitchIPByID(int ID)
+		{
+			//TODO
+			return "1.1.1.1";
 		}
 	}
 }
