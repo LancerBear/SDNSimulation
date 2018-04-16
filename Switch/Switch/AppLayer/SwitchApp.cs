@@ -34,21 +34,17 @@ namespace Switch.AppLayer
 			//	int temp = 0;
 			//	while (++temp < 10)
 			//	{
-			//		PacketEntity packet = new PacketEntity(new PacketHead("1.1.1.1", "2.2.2.2"), "Lancer");
+			//		PacketEntity packet = new PacketEntity(new PacketHead("1.1.1.1", "2.2.2.2", PacketHead.EN_PACKET_TYPE.EN_NORMAL_PACKET), "Lancer");
 			//		byte[] buffer = Util.ObjectToBytes(packet);
-			//		Const.EN_RET_CODE retVal = Transmitter.SendViaPhyPort(1, buffer);
+			//		Transmitter.SendViaPhyPort(1, buffer);
 			//		Transmitter.SendViaPhyPort(2, buffer);
 			//		Transmitter.SendViaPhyPort(0, buffer);
-			//		if (retVal == Const.EN_RET_CODE.EN_RET_PACKET_LENGTH_OVERFOLW)
-			//		{
-
-			//		}
 			//		Console.WriteLine("发送完成");
 			//		Thread.Sleep(1000);
 			//	}
 			//}
 
-			
+
 
 			PacketInfo packetInfo = null;
 			bool firstLoop = true;
@@ -125,7 +121,7 @@ namespace Switch.AppLayer
 			int iPhyPortNo = packetInfo.GetPhyPort();
 			byte[] buffer = packetInfo.GetPacketByte();
 			PacketEntity packet = (PacketEntity)Util.BytesToObject(buffer);
-			string content = packet.GetContent();
+			string content = packet.GetStrContent();
 			string srcIP = packet.GetHead().strSrcIP;
 			string desIP = packet.GetHead().strDesIP;
 			PacketHead.EN_PACKET_TYPE packetType = packet.GetHead().enPacketType;

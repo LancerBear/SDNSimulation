@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Text;
 
 namespace SDNCommon
 {
@@ -6,12 +7,19 @@ namespace SDNCommon
     public class PacketEntity
     {
 		private PacketHead head;
-		private string strContent;
+		//private string strContent;
+		private byte[] byteContent;
 
 		public PacketEntity(PacketHead head, string strContent)
 		{
 			this.head = head;
-			this.strContent = strContent;
+			this.byteContent = Encoding.Default.GetBytes(strContent);
+		}
+
+		public PacketEntity(PacketHead head, byte[] byteContent)
+		{
+			this.head = head;
+			this.byteContent = byteContent;
 		}
 
 		public PacketHead GetHead()
@@ -19,9 +27,14 @@ namespace SDNCommon
 			return this.head;
 		}
 
-		public string GetContent()
+		public string GetStrContent()
 		{
-			return this.strContent;
+			return Encoding.Default.GetString(this.byteContent);
+		}
+
+		public byte[] GetByteContent()
+		{
+			return this.byteContent;
 		}
 	}
 }

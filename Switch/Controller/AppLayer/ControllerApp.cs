@@ -13,7 +13,7 @@ namespace Controller
 		{
 			//测试
 			PacketEntity packet = new PacketEntity(new PacketHead("", "", PacketHead.EN_PACKET_TYPE.EN_PACKET_IN), "");
-			PacketInfo packetInfo= new PacketInfo(0, Util.ObjectToBytes(packet));
+			PacketInfo packetInfo= new PacketInfo(6, Util.ObjectToBytes(packet));
 			DealPakcetIn(packetInfo);
 			//测试
 
@@ -68,6 +68,7 @@ namespace Controller
 					break;
 
 				case PacketHead.EN_PACKET_TYPE.EN_PACKET_IN:
+					DealPakcetIn(packetInfo);
 					break;
 				default:
 					break;
@@ -83,7 +84,7 @@ namespace Controller
 			byte[] packetByte = packetInfo.GetPacketByte();
 			int iPhyPortNo = packetInfo.GetPhyPort();
 			PacketEntity packet = (PacketEntity)Util.BytesToObject(packetByte);
- 			string content = packet.GetContent();
+ 			string content = packet.GetStrContent();
 			string srcIP = packet.GetHead().strSrcIP;
 			string desIP = packet.GetHead().strDesIP;
 			Const.EN_RET_CODE retVal = Const.EN_RET_CODE.EN_RET_INIT;
@@ -109,7 +110,7 @@ namespace Controller
 			byte[] packetByte = packetInfo.GetPacketByte();
 			int iPhyPortNo = packetInfo.GetPhyPort();
 			PacketEntity packet = (PacketEntity)Util.BytesToObject(packetByte);
-			string content = packet.GetContent();
+			string content = packet.GetStrContent();
 			string srcIP = packet.GetHead().strSrcIP;
 			string desIP = packet.GetHead().strDesIP;
 			Const.EN_RET_CODE retVal = Const.EN_RET_CODE.EN_RET_INIT;
@@ -193,7 +194,7 @@ namespace Controller
 					}
 				}
 
-				//如果以及找到目的交换机，则退出循环
+				//如果已经找到目的交换机，则退出循环
 				if (nextSwitchID == desSwitchID)
 				{
 					break;
@@ -201,29 +202,38 @@ namespace Controller
 
 			}
 
-			for (int i = 0; i < Program.iMaxSwitchID + 1; i++)
-			{
-				Console.Write(preSwitchID[i] + "\t");
-			}
-			Console.Write("\n");
+			//for (int i = 0; i < Program.iMaxSwitchID + 1; i++)
+			//{
+			//	Console.Write(preSwitchID[i] + "\t");
+			//}
+			//Console.Write("\n");
 
-			int curID = desSwitchID;
-			int preID = preSwitchID[curID];
+			////遍历找到最短路的终点
+			//for (int i = 0; i < Program.iMaxSwitchID + 1; i++)
+			//{
+			//	if (!isInPath[i])
+			//		continue;
+			//	if (i == srcSwitchID)
+			//		continue;
 
-			Console.WriteLine("Path: ");
-			while (preID != Const.INVALID_NUM)
-			{
-				Console.WriteLine(curID);
-				curID = preID;
-				preID = preSwitchID[curID];
-			}
+			//	//TODO
+			//	int curID = desSwitchID;
+			//	int preID = preSwitchID[curID];
 
-			Console.WriteLine("distance: ");
-			for (int i = 0; i < Program.iMaxSwitchID + 1; i++)
-			{
-				Console.Write(distance[i] + "\t");
-			}
-			Console.Write("\n");
+			//	Console.WriteLine("Path: ");
+			//	while (preID != Const.INVALID_NUM)
+			//	{
+			//		Console.WriteLine(curID);
+			//		curID = preID;
+			//		preID = preSwitchID[curID];
+			//	}
+			//}
+			//Console.WriteLine("distance: ");
+			//for (int i = 0; i < Program.iMaxSwitchID + 1; i++)
+			//{
+			//	Console.Write(distance[i] + "\t");
+			//}
+			//Console.Write("\n");
 
 		}
 
