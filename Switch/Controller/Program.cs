@@ -22,6 +22,12 @@ namespace Controller
 		//当前拓扑结构中最大交换机ID
 		public static int iMaxSwitchID = Const.INVALID_NUM;
 
+		//交换机ID到IP的映射
+		public static Dictionary<int, string> IDtoIP = new Dictionary<int, string>();
+
+		//交换机IP到ID的映射
+		public static Dictionary<string, int> IPtoID = new Dictionary<string, int>();
+
 
 		static void Main(string[] args)
 		{
@@ -63,6 +69,11 @@ namespace Controller
 			if (retVal != Const.EN_RET_CODE.EN_RET_SUCC)
 				return retVal;
 
+			//初始化IP
+			retVal = InitIPArry();
+			if (retVal != Const.EN_RET_CODE.EN_RET_SUCC)
+				return retVal;
+
 			//清空消息队列
 			PacketQueue.Clear();
 			
@@ -89,6 +100,17 @@ namespace Controller
 					PathInfoArr[i, j].phyPortNo = Const.INVALID_NUM;
 				}
 			}
+			return Const.EN_RET_CODE.EN_RET_SUCC;
+		}
+
+		/// <summary>
+		/// 初始化IP数组
+		/// </summary>
+		/// <returns></returns>
+		private static Const.EN_RET_CODE InitIPArry()
+		{
+			IDtoIP.Clear();
+			IPtoID.Clear();
 			return Const.EN_RET_CODE.EN_RET_SUCC;
 		}
 

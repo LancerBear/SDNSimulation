@@ -4,54 +4,63 @@
 
 <controller>
 	<switchID>0</switchID>
+	<switchIP>10.22.178.196</switchIP>
 	<switchPort>10000</switchPort>
 	<controllerPort>10001</controllerPort>
 </controller>
 
 <controller>
 	<switchID>1</switchID>
+	<switchIP>10.22.12.196</switchIP>
 	<switchPort>10002</switchPort>
 	<controllerPort>10003</controllerPort>
 </controller>
 
 <controller>
 	<switchID>2</switchID>
+	<switchIP>10.209.178.153</switchIP>
 	<switchPort>10004</switchPort>
 	<controllerPort>10005</controllerPort>
 </controller>
 
 <controller>
 	<switchID>3</switchID>
+	<switchIP>10.212.116.12</switchIP>
 	<switchPort>10006</switchPort>
 	<controllerPort>10007</controllerPort>
 </controller>
 
 <controller>
 	<switchID>4</switchID>
+	<switchIP>10.21.127.244</switchIP>
 	<switchPort>10008</switchPort>
 	<controllerPort>10009</controllerPort>
 </controller>
 
 <controller>
 	<switchID>5</switchID>
+	<switchIP>10.212.12.146</switchIP>
 	<switchPort>10010</switchPort>
 	<controllerPort>10011</controllerPort>
 </controller>
 
 <controller>
 	<switchID>6</switchID>
+	<switchIP>10.25.138.13</switchIP>
 	<switchPort>10012</switchPort>
 	<controllerPort>10013</controllerPort>
 </controller>
 
 <controller>
 	<switchID>7</switchID>
+	<switchIP>11.224.174.19</switchIP>
 	<switchPort>10014</switchPort>
 	<controllerPort>10015</controllerPort>
 </controller>
 
 <controller>
 	<switchID>8</switchID>
+	<switchIP>10.212.128.177</switchIP>
 	<switchPort>10016</switchPort>
 	<controllerPort>10017</controllerPort>
 </controller>

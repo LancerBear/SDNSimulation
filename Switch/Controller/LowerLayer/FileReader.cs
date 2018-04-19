@@ -135,12 +135,14 @@ namespace Controller
 					string strSwitchID;
 					string strSwitchPort;
 					string strControllerPort;
+					string strSwitchIP;
 
 					int iSwitchID = Const.INVALID_NUM;
 					int iSwitchPort = Const.INVALID_NUM;
 					int iControllerPort = Const.INVALID_NUM;
 
 					strSwitchID = ((XmlElement)ctrlNode).GetElementsByTagName("switchID")[0].InnerText;
+					strSwitchIP = ((XmlElement)ctrlNode).GetElementsByTagName("switchIP")[0].InnerText;
 					strSwitchPort = ((XmlElement)ctrlNode).GetElementsByTagName("switchPort")[0].InnerText;
 					strControllerPort = ((XmlElement)ctrlNode).GetElementsByTagName("controllerPort")[0].InnerText;
 
@@ -193,6 +195,10 @@ namespace Controller
 					{
 						Program.iMaxSwitchID = iSwitchID;
 					}
+
+					//记录IP
+					Program.IDtoIP[iSwitchID] = strSwitchIP;
+					Program.IPtoID[strSwitchIP] = iSwitchID;
 				}
 			}
 			catch (XmlException)

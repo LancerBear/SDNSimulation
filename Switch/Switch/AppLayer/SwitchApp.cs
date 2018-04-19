@@ -113,7 +113,7 @@ namespace Switch.AppLayer
 
 
 		/// <summary>
-		/// 阻塞的方式处理控制器的消息，处理完之前无法接受控制器消息
+		/// 阻塞的方式处理控制器的消息，处理完之前无法接受控制器消息，属于监听子线程
 		/// </summary>
 		/// <param name="packetInfo"></param>
 		public static void DealControllerPacket(PacketInfo packetInfo)
@@ -132,7 +132,11 @@ namespace Switch.AppLayer
 					Util.Log(Util.EN_LOG_LEVEL.EN_LOG_INFO, "控制器上线");
 					break;
 
-				case PacketHead.EN_PACKET_TYPE.EN_PACKET_OUT:
+				case PacketHead.EN_PACKET_TYPE.EN_PACKET_OUT_WITH_FLOW_ITEM:
+					//TODO
+					break;
+
+				case PacketHead.EN_PACKET_TYPE.EN_PACKET_OUT_DOUNP_DUMP:
 					//TODO
 					break;
 				default:

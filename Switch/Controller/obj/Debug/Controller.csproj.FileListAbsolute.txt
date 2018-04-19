@@ -1,2 +1,0 @@
-D:\毕业设计\Codes\Switch\Controller\bin\Debug\Controller.exe
-D:\毕业设计\Codes\Switch\Controller\bin\Debug\Switch.exe

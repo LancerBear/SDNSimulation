@@ -13,7 +13,8 @@ namespace SDNCommon
 			EN_ACK_SWITCH_ONLINE,
 			EN_NORMAL_PACKET,
 			EN_PACKET_IN,
-			EN_PACKET_OUT
+			EN_PACKET_OUT_WITH_FLOW_ITEM,
+			EN_PACKET_OUT_DOUNP_DUMP
 		}
 		public string strSrcIP;
 		public string strDesIP;
