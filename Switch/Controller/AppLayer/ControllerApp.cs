@@ -127,13 +127,13 @@ namespace Controller
 			//bool isDesIPValid = true;
 
 			//记录到当前点的最短路径数值
-			int[] distance = new int[Program.iMaxSwitchID + 1];
+			int[] distance = new int[Program.iMaxDeviceID + 1];
 
 			//标记是否在最短路径中
-			bool[] isInPath = new bool[Program.iMaxSwitchID + 1];
+			bool[] isInPath = new bool[Program.iMaxDeviceID + 1];
 
 			//最短路径的前驱点
-			int[] preSwitchID = new int[Program.iMaxSwitchID + 1];
+			int[] preSwitchID = new int[Program.iMaxDeviceID + 1];
 
 			//获取目的节点的ID
 			try
@@ -151,7 +151,7 @@ namespace Controller
 			}
 
 			//初始化数组
-			for (int i = 0; i < Program.iMaxSwitchID + 1; i++)
+			for (int i = 0; i < Program.iMaxDeviceID + 1; i++)
 			{
 				//设置标记为false，即未计算出到i的最短路
 				isInPath[i] = false;
@@ -180,13 +180,13 @@ namespace Controller
 			}
 
 			//循环n - 1次
-			for (int loop = 0; loop < Program.iMaxSwitchID; loop++)
+			for (int loop = 0; loop < Program.iMaxDeviceID; loop++)
 			{
 				int minDis = Const.MAX_DISTANCE + 1;
 				int nextSwitchID = Const.INVALID_NUM;
 
 				//找距离最小的点
-				for (int i = 0; i < Program.iMaxSwitchID + 1; i++)
+				for (int i = 0; i < Program.iMaxDeviceID + 1; i++)
 				{
 					if (!isInPath[i])
 					{
@@ -203,7 +203,7 @@ namespace Controller
 				isInPath[nextSwitchID] = true;
 
 				//更新数组
-				for (int i = 0; i < Program.iMaxSwitchID + 1; i++)
+				for (int i = 0; i < Program.iMaxDeviceID + 1; i++)
 				{
 					if (!isInPath[i] && (Program.PathInfoArr[nextSwitchID, i].distance != Const.INVALID_NUM))
 					{
@@ -232,7 +232,7 @@ namespace Controller
 			Dictionary<string, int> FlowTableDic = new Dictionary<string, int>();
 
 			//遍历找到最短路的终点
-			for (int i = 0; i < Program.iMaxSwitchID + 1; i++)
+			for (int i = 0; i < Program.iMaxDeviceID + 1; i++)
 			{
 				if (!isInPath[i])
 					continue;

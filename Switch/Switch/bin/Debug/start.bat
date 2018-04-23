@@ -1,9 +1,9 @@
 start Switch.exe 0
 start Switch.exe 1
-start Switch.exe 2
+start Switch.exe 8
 start Switch.exe 3
 start Switch.exe 4
 start Switch.exe 5
 start Switch.exe 6
 start Switch.exe 7
-start Switch.exe 8
+start Switch.exe 2

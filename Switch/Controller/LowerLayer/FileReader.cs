@@ -30,10 +30,14 @@ namespace Controller
 			{
 				XmlElement root = doc.DocumentElement;
 
+				bool boolTryParseResult = false;
+
 				//遍历所有pair，记录邻接矩阵
 				XmlNodeList pairList = root.GetElementsByTagName("pair");
 				foreach (XmlNode PairNode in pairList)
 				{
+					boolTryParseResult = false;
+
 					string strID0;
 					string strID1;
 					string strDistance;
@@ -45,8 +49,6 @@ namespace Controller
 					int iDistance;
 					int iPhyPort0;
 					int iPhyPort1;
-
-					bool boolTryParseResult = false;
 
 					strDistance = ((XmlElement)PairNode).GetElementsByTagName("distance")[0].InnerText;
 
@@ -130,7 +132,7 @@ namespace Controller
 				XmlNodeList controllerList = root.GetElementsByTagName("controller");
 				foreach (XmlNode ctrlNode in controllerList)
 				{
-					bool boolTryParseResult = false;
+					boolTryParseResult = false;
 
 					string strSwitchID;
 					string strSwitchPort;
@@ -191,14 +193,84 @@ namespace Controller
 					}
 
 					//记录最大交换机ID
-					if (iSwitchID > Program.iMaxSwitchID)
+					if (iSwitchID > Program.iMaxDeviceID)
 					{
-						Program.iMaxSwitchID = iSwitchID;
+						Program.iMaxDeviceID = iSwitchID;
 					}
 
 					//记录IP
 					Program.IDtoIP[iSwitchID] = strSwitchIP;
 					Program.IPtoID[strSwitchIP] = iSwitchID;
+				}
+
+				//遍历Host标签
+				XmlNodeList hostList = root.GetElementsByTagName("Host");
+				foreach (XmlNode hostNode in hostList)
+				{
+					boolTryParseResult = false;
+
+					string strHostID;
+					string strSwitchID;
+					string strDistance;
+					string strHostIP;
+					string strSwitchPhyPortNum;
+
+					int iHostID = Const.INVALID_NUM;
+					int iSwitchID = Const.INVALID_NUM;
+					int iDistance = Const.INVALID_NUM;
+					int iSwitchPhyPortNum = Const.INVALID_NUM;
+
+					strHostIP = ((XmlElement)hostNode).GetElementsByTagName("HostIP")[0].InnerText;
+					strHostID = ((XmlElement)hostNode).GetElementsByTagName("HostID")[0].InnerText;
+					strSwitchID = ((XmlElement)hostNode).GetElementsByTagName("switchID")[0].InnerText;
+					strDistance = ((XmlElement)hostNode).GetElementsByTagName("distance")[0].InnerText;
+					strSwitchPhyPortNum = ((XmlElement)hostNode).GetElementsByTagName("PhyPortNo")[0].InnerText;
+
+					boolTryParseResult = int.TryParse(strHostID, out iHostID);
+					if (boolTryParseResult != true)
+					{
+						Util.Log(Util.EN_LOG_LEVEL.EN_LOG_FATAL, "主机ID转换整型变量失败");
+						return Const.EN_RET_CODE.EN_RET_INT_TRY_PARSE_ERR;
+					}
+
+					boolTryParseResult = int.TryParse(strSwitchID, out iSwitchID);
+					if (boolTryParseResult != true)
+					{
+						Util.Log(Util.EN_LOG_LEVEL.EN_LOG_FATAL, "交换机ID转换整型变量失败");
+						return Const.EN_RET_CODE.EN_RET_INT_TRY_PARSE_ERR;
+					}
+
+					boolTryParseResult = int.TryParse(strDistance, out iDistance);
+					if (boolTryParseResult != true)
+					{
+						Util.Log(Util.EN_LOG_LEVEL.EN_LOG_FATAL, "距离转换整型变量失败");
+						return Const.EN_RET_CODE.EN_RET_INT_TRY_PARSE_ERR;
+					}
+
+					boolTryParseResult = int.TryParse(strSwitchPhyPortNum, out iSwitchPhyPortNum);
+					if (boolTryParseResult != true)
+					{
+						Util.Log(Util.EN_LOG_LEVEL.EN_LOG_FATAL, "距离转换整型变量失败");
+						return Const.EN_RET_CODE.EN_RET_INT_TRY_PARSE_ERR;
+					}
+
+					//记录最大交换机ID
+					if (iHostID > Program.iMaxDeviceID)
+					{
+						Program.iMaxDeviceID = iHostID;
+					}
+
+					//记录IP
+					Program.IDtoIP[iHostID] = strHostIP;
+					Program.IPtoID[strHostIP] = iHostID;
+
+					//记录路径到邻接矩阵
+					Program.PathInfoArr[iSwitchID, iHostID].distance = iDistance;
+					Program.PathInfoArr[iSwitchID, iHostID].phyPortNo = iSwitchPhyPortNum;
+
+					Program.PathInfoArr[iHostID, iSwitchID].distance = iDistance;
+					//主机的物理端口默认为0
+					Program.PathInfoArr[iHostID, iSwitchID].phyPortNo = 0;
 				}
 			}
 			catch (XmlException)

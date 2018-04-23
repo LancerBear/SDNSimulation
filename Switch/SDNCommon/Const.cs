@@ -23,7 +23,7 @@ namespace SDNCommon
 
 		public static IPAddress ipAddress = IPAddress.Parse("127.0.0.1");
 
-		public const int MAX_PHY_PORT_NUM = 3;
+		public const int MAX_PHY_PORT_NUM = 5;
 		public const int MIN_PHY_PORT_NUM = 0;
 
 		public const int MAX_PORT_NUM = 65535;

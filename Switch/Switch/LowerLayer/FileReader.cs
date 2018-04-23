@@ -102,9 +102,13 @@ namespace Switch
 					}
 				}
 
+				//string转int成功标志
+				bool boolTryParseResult = false;
+
 				//遍历controller标签
 				XmlNodeList controllerList = root.GetElementsByTagName("controller");
-				foreach(XmlNode ctrlNode in controllerList)
+
+				foreach (XmlNode ctrlNode in controllerList)
 				{
 					string strSwitchID = ((XmlElement)ctrlNode).GetElementsByTagName("switchID")[0].InnerText;
 					
@@ -117,8 +121,20 @@ namespace Switch
 					string strControllerPort = ((XmlElement)ctrlNode).GetElementsByTagName("controllerPort")[0].InnerText; ;
 					int iSwitchPort = Const.INVALID_NUM;
 					int iControllerPort = Const.INVALID_NUM;
-					int.TryParse(strSwitchPort, out iSwitchPort);
-					int.TryParse(strControllerPort, out iControllerPort);
+
+					boolTryParseResult = int.TryParse(strSwitchPort, out iSwitchPort);
+					if (boolTryParseResult != true)
+					{
+						Util.Log(Util.EN_LOG_LEVEL.EN_LOG_FATAL, "交换机端口号转换整型变量失败");
+						return Const.EN_RET_CODE.EN_RET_INT_TRY_PARSE_ERR;
+					}
+
+					boolTryParseResult = int.TryParse(strControllerPort, out iControllerPort);
+					if (boolTryParseResult != true)
+					{
+						Util.Log(Util.EN_LOG_LEVEL.EN_LOG_FATAL, "控制器端口号转换整型变量失败");
+						return Const.EN_RET_CODE.EN_RET_INT_TRY_PARSE_ERR;
+					}
 
 					//增加物理端口，监听控制器发送的数据，默认控制器连接交换机的0端口
 					Const.EN_RET_CODE retVal = Const.EN_RET_CODE.EN_RET_INIT;
@@ -131,7 +147,57 @@ namespace Switch
 					}
 				}
 
-			}catch(Exception)
+				//遍历Host标签
+				XmlNodeList hostList = root.GetElementsByTagName("Host");
+				foreach(XmlNode hostNode in hostList)
+				{
+					string strSwitchID = ((XmlElement)hostNode).GetElementsByTagName("switchID")[0].InnerText;
+
+					if (Program.iCurSwitchID.ToString() != strSwitchID)
+					{
+						continue;
+					}
+
+					string strSwitchPort = ((XmlElement)hostNode).GetElementsByTagName("switchPort")[0].InnerText;
+					string strSwitchPhyPortNum = ((XmlElement)hostNode).GetElementsByTagName("PhyPortNo")[0].InnerText;
+					string strHostPort = ((XmlElement)hostNode).GetElementsByTagName("HostPort")[0].InnerText;
+
+					int iSwitchPort = Const.INVALID_NUM;
+					int iSwitchPhyPortNum = Const.INVALID_NUM;
+					int iHostPort = Const.INVALID_NUM;
+
+					boolTryParseResult = int.TryParse(strSwitchPort, out iSwitchPort);
+					if (boolTryParseResult != true)
+					{
+						Util.Log(Util.EN_LOG_LEVEL.EN_LOG_FATAL, "交换机端口号转换整型变量失败");
+						return Const.EN_RET_CODE.EN_RET_INT_TRY_PARSE_ERR;
+					}
+
+					boolTryParseResult = int.TryParse(strSwitchPhyPortNum, out iSwitchPhyPortNum);
+					if (boolTryParseResult != true)
+					{
+						Util.Log(Util.EN_LOG_LEVEL.EN_LOG_FATAL, "交换机物理端口号转换整型变量失败");
+						return Const.EN_RET_CODE.EN_RET_INT_TRY_PARSE_ERR;
+					}
+
+					boolTryParseResult = int.TryParse(strHostPort, out iHostPort);
+					if (boolTryParseResult != true)
+					{
+						Util.Log(Util.EN_LOG_LEVEL.EN_LOG_FATAL, "主机端口号转换整型变量失败");
+						return Const.EN_RET_CODE.EN_RET_INT_TRY_PARSE_ERR;
+					}
+
+					//增加物理端口，监听主机发送的消息
+					Const.EN_RET_CODE retVal = Const.EN_RET_CODE.EN_RET_INIT;
+					retVal = PhyPortManager.GetInstance().AddPort(iSwitchPhyPortNum, iHostPort, iSwitchPort);
+					if (retVal != Const.EN_RET_CODE.EN_RET_SUCC)
+					{
+						Util.Log(Util.EN_LOG_LEVEL.EN_LOG_FATAL, "连接主机失败");
+						return retVal;
+					}
+				}
+			}
+			catch(Exception)
 			{
 				Util.Log(Util.EN_LOG_LEVEL.EN_LOG_FATAL, "Xml格式错误");
 				return Const.EN_RET_CODE.EN_XML_FILE_FORMAT_ERR;

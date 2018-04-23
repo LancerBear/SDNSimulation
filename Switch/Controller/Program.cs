@@ -19,8 +19,8 @@ namespace Controller
 		//消息队列互斥锁
 		public static Mutex PktQueueMutex = new Mutex();
 
-		//当前拓扑结构中最大交换机ID
-		public static int iMaxSwitchID = Const.INVALID_NUM;
+		//当前拓扑结构中最大设备ID，包括交换机和主机
+		public static int iMaxDeviceID = Const.INVALID_NUM;
 
 		//交换机ID到IP的映射
 		public static Dictionary<int, string> IDtoIP = new Dictionary<int, string>();
@@ -119,14 +119,14 @@ namespace Controller
 		/// </summary>
 		public static void ShowPathInfo()
 		{
-			for (int i = 0; i < iMaxSwitchID + 1; i++)
+			for (int i = 0; i < iMaxDeviceID + 1; i++)
 			{
 				Console.Write(i + "\t");
 			}
 			Console.Write("\n");
-			for (int i = 0; i < iMaxSwitchID + 1; i++)
+			for (int i = 0; i < iMaxDeviceID + 1; i++)
 			{
-				for (int j = 0; j < iMaxSwitchID + 1; j++)
+				for (int j = 0; j < iMaxDeviceID + 1; j++)
 				{
 					Console.Write(PathInfoArr[i, j].distance + "\t");
 				}
