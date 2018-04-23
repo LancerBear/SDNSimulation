@@ -15,7 +15,7 @@ namespace Controller
 		{
 			////测试
 			//PacketEntity packet = new PacketEntity(new PacketHead("1.1.1.1", "10.212.12.146", PacketHead.EN_PACKET_TYPE.EN_PACKET_IN), "");
-			//PacketInfo packetInfo= new PacketInfo(6, Util.ObjectToBytes(packet));
+			//PacketInfo packetInfo = new PacketInfo(6, Util.ObjectToBytes(packet));
 			//DealPakcetIn(packetInfo);
 			////测试
 
@@ -144,7 +144,7 @@ namespace Controller
 			{
 				//如果目的IP不在拓扑图中，则命令交换机丢弃数据包
 				Util.Log(Util.EN_LOG_LEVEL.EN_LOG_INFO, "目的IP错误");
-				PacketHead dumpHead = new PacketHead(srcIP, desIP, PacketHead.EN_PACKET_TYPE.EN_PACKET_OUT_DOUNP_DUMP);
+				PacketHead dumpHead = new PacketHead(srcIP, desIP, PacketHead.EN_PACKET_TYPE.EN_PACKET_OUT_DUMP);
 				PacketEntity dumpPacket = new PacketEntity(dumpHead, "");
 				retVal = Transmitter.SendViaPhyPort(srcSwitchID, Util.ObjectToBytes(dumpPacket));
 				return;

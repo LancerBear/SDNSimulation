@@ -11,7 +11,7 @@ namespace Controller
 	class Program
 	{
 		//邻接矩阵
-		public static SinglePathInfo[,] PathInfoArr = new SinglePathInfo[Const.MAX_SWITCH_NUM + 1, Const.MAX_SWITCH_NUM + 1];
+		public static SinglePathInfo[,] PathInfoArr = new SinglePathInfo[Const.MAX_DEVICE_NUM + 1, Const.MAX_DEVICE_NUM + 1];
 
 		//消息队列
 		public static Queue<PacketInfo> PacketQueue = new Queue<PacketInfo>();

@@ -1,12 +1,12 @@
 ﻿using SDNCommon;
 
-namespace Controller
+namespace Host
 {
 	public sealed class PhyPortManager
 	{
 		private static PhyPortManager instance = null;
 		private static readonly object objLock = new object();
-		public PhyPort[] arrPhyPort = new PhyPort[Const.MAX_DEVICE_NUM + 1];
+		public PhyPort phyPort;
 		public Listener[] arrListener = new Listener[Const.MAX_DEVICE_NUM + 1];
 
 		/// <summary>
@@ -16,7 +16,7 @@ namespace Controller
 		{
 			for (int i = 0; i < Const.MAX_DEVICE_NUM + 1; i++)
 			{
-				arrPhyPort[i] = null;
+				phyPort = null;
 				arrListener[i] = null;
 			}
 		}
@@ -56,7 +56,7 @@ namespace Controller
 			}
 
 			PhyPort p = new PhyPort(iPhyPortNo, iRemotePort, iLocalPort);
-			arrPhyPort[iPhyPortNo] = p;
+			phyPort = p;
 			Listener listener = new Listener(p);
 			arrListener[iPhyPortNo] = listener;
 
@@ -69,10 +69,10 @@ namespace Controller
 			if (phyPortNo > Const.MAX_DEVICE_NUM || phyPortNo < Const.MIN_DEVICE_NUM)
 				return Const.EN_RET_CODE.EN_RET_PHY_PORT_OVERFLOW;
 
-			if (arrPhyPort[phyPortNo] == null)
+			if (phyPort == null)
 				return Const.EN_RET_CODE.EN_RET_PHY_PORT_NOT_CONNECTED;
 
-			arrPhyPort[phyPortNo].SendTo(buffer);
+			phyPort.SendTo(buffer);
 
 			return Const.EN_RET_CODE.EN_RET_SUCC;
 		}

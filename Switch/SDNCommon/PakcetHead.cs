@@ -14,7 +14,7 @@ namespace SDNCommon
 			EN_NORMAL_PACKET,
 			EN_PACKET_IN,
 			EN_PACKET_OUT_WITH_FLOW_ITEM,
-			EN_PACKET_OUT_DOUNP_DUMP
+			EN_PACKET_OUT_DUMP
 		}
 		public string strSrcIP;
 		public string strDesIP;

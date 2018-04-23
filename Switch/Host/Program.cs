@@ -2,29 +2,22 @@
 using System;
 using System.Collections.Generic;
 using System.Threading;
-using Switch.AppLayer;
 
-namespace Switch
+namespace Host
 {
-	/// <summary>
-	/// 委托函数类，可以作为参数传入函数，实现函数指针的功能
-	/// </summary>
-	/// <param name="buffer"></param>
-	public delegate void DelegateFunc(PacketInfo packetInfo);
-
 	class Program
 	{
-		//当前交换机的ID
-		public static int iCurSwitchID = Const.INVALID_NUM;
+		//当前主机的ID 
+		public static int iCurHostID = Const.INVALID_NUM;
+
+		//当前主机的IP
+		public static string strCurHostIP = "";
 
 		//消息队列
 		public static Queue<PacketInfo> PacketQueue = new Queue<PacketInfo>();
 
 		//消息队列互斥锁
 		public static Mutex PktQueueMutex = new Mutex();
-
-		//接收到的没有匹配流表的缓冲区
-		public static Queue<PacketInfo> BufferQueue = new Queue<PacketInfo>();
 
 		static void Main(string[] args)
 		{
@@ -34,23 +27,23 @@ namespace Switch
 				Util.Log(Util.EN_LOG_LEVEL.EN_LOG_FATAL, "输入参数不存在");
 				Environment.Exit(0);
 			}
-			
-			if (!int.TryParse(args[0], out iCurSwitchID))
+
+			if (!int.TryParse(args[0], out iCurHostID))
 			{
 				Util.Log(Util.EN_LOG_LEVEL.EN_LOG_FATAL, "输入参数格式不正确");
 				Environment.Exit(0);
 			}
 
-			if (iCurSwitchID > Const.MAX_DEVICE_NUM || iCurSwitchID < Const.MIN_DEVICE_NUM)
+			if (iCurHostID > Const.MAX_DEVICE_NUM || iCurHostID < Const.MIN_DEVICE_NUM)
 			{
 				Util.Log(Util.EN_LOG_LEVEL.EN_LOG_FATAL, "交换机ID过大或过小");
 				Environment.Exit(0);
 			}
 
-			Util.Log(Util.EN_LOG_LEVEL.EN_LOG_INFO, "交换机ID: " + iCurSwitchID.ToString());
+			Util.Log(Util.EN_LOG_LEVEL.EN_LOG_INFO, "主机ID: " + iCurHostID.ToString());
 
 			Const.EN_RET_CODE retVal = Const.EN_RET_CODE.EN_RET_INIT;
-			
+
 			//进行系统初始化工作，包括建立拓扑等
 			retVal = SystemInit();
 			if (retVal != Const.EN_RET_CODE.EN_RET_SUCC)
@@ -61,16 +54,16 @@ namespace Switch
 			Util.Log(Util.EN_LOG_LEVEL.EN_LOG_INFO, "系统初始化完成");
 
 			//交换机应用初始化
-			retVal = SwitchApp.Init();
+			retVal = HostApp.Init();
 			if (retVal != Const.EN_RET_CODE.EN_RET_SUCC)
 			{
-				Util.Log(Util.EN_LOG_LEVEL.EN_LOG_FATAL, "交换机应用初始化失败");
+				Util.Log(Util.EN_LOG_LEVEL.EN_LOG_FATAL, "主机应用初始化失败");
 				Environment.Exit(0);
 			}
-			Util.Log(Util.EN_LOG_LEVEL.EN_LOG_INFO, "交换机应用初始化完成");
+			Util.Log(Util.EN_LOG_LEVEL.EN_LOG_INFO, "主机应用初始化完成");
 
 			//开始交换机应用，其中死循环
-			SwitchApp.Start();
+			HostApp.Start();
 		}
 
 		/// <summary>
@@ -80,7 +73,7 @@ namespace Switch
 		private static Const.EN_RET_CODE SystemInit()
 		{
 			Const.EN_RET_CODE retVal = Const.EN_RET_CODE.EN_RET_INIT;
-			
+
 			//建立拓扑
 			retVal = FileReader.InitFromFile("..\\..\\..\\topology.xml");
 			if (Const.EN_RET_CODE.EN_RET_SUCC != retVal)

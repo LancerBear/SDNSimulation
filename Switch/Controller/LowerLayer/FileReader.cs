@@ -101,8 +101,8 @@ namespace Controller
 					}
 
 					//交换机ID不在范围内
-					if (iID0 < Const.MIN_SWITCH_NUM || iID0 > Const.MAX_SWITCH_NUM
-						|| iID1 < Const.MIN_SWITCH_NUM || iID1 > Const.MAX_SWITCH_NUM)
+					if (iID0 < Const.MIN_DEVICE_NUM || iID0 > Const.MAX_DEVICE_NUM
+						|| iID1 < Const.MIN_DEVICE_NUM || iID1 > Const.MAX_DEVICE_NUM)
 					{
 						Util.Log(Util.EN_LOG_LEVEL.EN_LOG_FATAL, "交换机ID不在范围内");
 						return Const.EN_RET_CODE.EN_RET_SWITCH_ID_OVERFLOW;
@@ -168,7 +168,7 @@ namespace Controller
 					}
 
 					//交换机ID不在范围内
-					if (iSwitchID > Const.MAX_SWITCH_NUM || iSwitchID < Const.MIN_SWITCH_NUM)
+					if (iSwitchID > Const.MAX_DEVICE_NUM || iSwitchID < Const.MIN_DEVICE_NUM)
 					{
 						Util.Log(Util.EN_LOG_LEVEL.EN_LOG_FATAL, "交换机ID不在范围内");
 						return Const.EN_RET_CODE.EN_RET_SWITCH_ID_OVERFLOW;

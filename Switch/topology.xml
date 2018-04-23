@@ -65,7 +65,25 @@
 	<controllerPort>10017</controllerPort>
 </controller>
 
+<Host>
+	<distance>100</distance>
+	<HostID>9</HostID>
+	<HostIP>11.224.117.226</HostIP>
+	<switchID>7</switchID>
+	<PhyPortNo>2</PhyPortNo>
+	<HostPort>9000</HostPort>
+	<switchPort>9001</switchPort>
+</Host>
 
+<Host>
+	<distance>100</distance>
+	<HostID>10</HostID>
+	<HostIP>10.209.125.221</HostIP>
+	<switchID>2</switchID>
+	<PhyPortNo>4</PhyPortNo>
+	<HostPort>9002</HostPort>
+	<switchPort>9003</switchPort>
+</Host>
 
 <pair>
 	<distance>2475</distance>

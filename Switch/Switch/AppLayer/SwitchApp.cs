@@ -132,11 +132,12 @@ namespace Switch.AppLayer
 					Util.Log(Util.EN_LOG_LEVEL.EN_LOG_INFO, "控制器上线");
 					break;
 
+				//收到控制器下发的流表
 				case PacketHead.EN_PACKET_TYPE.EN_PACKET_OUT_WITH_FLOW_ITEM:
-					//TODO
+					DealPacketOut(packetInfo);
 					break;
 
-				case PacketHead.EN_PACKET_TYPE.EN_PACKET_OUT_DOUNP_DUMP:
+				case PacketHead.EN_PACKET_TYPE.EN_PACKET_OUT_DUMP:
 					//TODO
 					break;
 				default:
@@ -180,6 +181,24 @@ namespace Switch.AppLayer
 					Util.Log(Util.EN_LOG_LEVEL.EN_LOG_INFO, "packet_in发送失败");
 				}
 			}
+		}
+
+		/// <summary>
+		/// 处理控制器下发的Pakcet_Out消息，监听子线程调用
+		/// </summary>
+		/// <param name="packetInfo"></param>
+		public static void DealPacketOut(PacketInfo packetInfo)
+		{
+			byte[] buffer = packetInfo.GetPacketByte();
+			PacketEntity packet = (PacketEntity)Util.BytesToObject(buffer);
+			byte[] FlowBuffer = packet.GetByteContent();
+			Dictionary<string, int> dictionary = (Dictionary<string, int>)Util.BytesToObject(FlowBuffer);
+
+			for (int i = 0; i < dictionary.Count; i++)
+			{
+				Console.WriteLine(dictionary.ElementAt(i).Key + "  " + dictionary.ElementAt(i).Value);
+			}
+
 		}
 	}
 }

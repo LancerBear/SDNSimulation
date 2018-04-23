@@ -29,8 +29,8 @@ namespace SDNCommon
 		public const int MAX_PORT_NUM = 65535;
 		public const int MIN_PORT_NUM = 0;
 
-		public const int MAX_SWITCH_NUM = 31;
-		public const int MIN_SWITCH_NUM = 0;
+		public const int MAX_DEVICE_NUM = 31;
+		public const int MIN_DEVICE_NUM = 0;
 
 		public const int MAX_DISTANCE = 999999;
 		public const int MIN_DISTANCE = 1;
