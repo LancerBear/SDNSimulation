@@ -6,7 +6,7 @@ using System.Threading;
 using System.Threading.Tasks;
 using SDNCommon;
 
-namespace Switch.AppLayer
+namespace Switch
 {
 	public static class SwitchApp
 	{
@@ -57,7 +57,6 @@ namespace Switch.AppLayer
 					PacketHead head = new PacketHead("", "", PacketHead.EN_PACKET_TYPE.EN_SWITCH_ONLINE);
 					PacketEntity packet = new PacketEntity(head, "");
 					retVal = Transmitter.SendViaPhyPort(0, Util.ObjectToBytes(packet));
-
 					if (Const.EN_RET_CODE.EN_RET_SUCC != retVal)
 					{
 						//TODO
@@ -189,6 +188,7 @@ namespace Switch.AppLayer
 		/// <param name="packetInfo"></param>
 		public static void DealPacketOut(PacketInfo packetInfo)
 		{
+			Console.WriteLine("packet_out");
 			byte[] buffer = packetInfo.GetPacketByte();
 			PacketEntity packet = (PacketEntity)Util.BytesToObject(buffer);
 			byte[] FlowBuffer = packet.GetByteContent();
@@ -196,9 +196,11 @@ namespace Switch.AppLayer
 
 			for (int i = 0; i < dictionary.Count; i++)
 			{
-				Console.WriteLine(dictionary.ElementAt(i).Key + "  " + dictionary.ElementAt(i).Value);
+				//Console.WriteLine(dictionary.ElementAt(i).Key + "  " + dictionary.ElementAt(i).Value);
+				FlowTableItem fItem = new FlowTableItem(dictionary.ElementAt(i).Key, dictionary.ElementAt(i).Value);
+				FlowTable.GetInstance().AddItem(fItem);
 			}
-
+			FlowTable.PrintItems();
 		}
 	}
 }

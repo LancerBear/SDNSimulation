@@ -80,9 +80,9 @@ namespace Host
 		/// <summary>
 		/// Listener接收到socket包后调用
 		/// </summary>
-		//public void HandleReceive(byte[] buffer, int length, int phyPortNo)
-		//{
-		//	Transmitter.CallFunc(buffer, length, phyPortNo);
-		//}
+		public void HandleReceive(PacketInfo packetInfo)
+		{
+			Transmitter.CallFunc(packetInfo);
+		}
 	}
 }

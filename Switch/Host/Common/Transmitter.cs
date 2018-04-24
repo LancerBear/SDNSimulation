@@ -40,17 +40,16 @@ namespace Host
 		}
 
 		/// <summary>
-		/// 暴露给上层，通过物理端口发送数据包
+		/// 暴露给上层
 		/// </summary>
-		/// <param name="PhyPortNo">物理端口号</param>
 		/// <param name="buffer">发送内容</param>
-		public static Const.EN_RET_CODE SendViaPhyPort(int PhyPortNo, byte[] buffer)
+		public static Const.EN_RET_CODE Send(byte[] buffer)
 		{
 			if (buffer.Length > Const.MAX_PACKET_LENGTH)
 				return Const.EN_RET_CODE.EN_RET_PACKET_LENGTH_OVERFOLW;
 
 			Const.EN_RET_CODE retVal = Const.EN_RET_CODE.EN_RET_INIT;
-			retVal = PhyPortManager.GetInstance().SendTo(PhyPortNo, buffer);
+			retVal = PhyPortManager.GetInstance().SendTo(0, buffer);
 			return retVal;
 		}
 	}

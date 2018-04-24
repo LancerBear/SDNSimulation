@@ -18,7 +18,10 @@ namespace SDNCommon
 			EN_RET_DISTAANCE_OVERFLOW,
 			EN_RET_PACKET_LENGTH_OVERFOLW,
 			EN_RET_INT_TRY_PARSE_ERR,
-			EN_RET_ERR
+			EN_RET_ERR,
+			EN_RET_CMD_INVALID,
+			EN_RET_CMD_PARA_INVALID,
+			EN_RET_CMD_IP_INVALID,
 		}
 
 		public static IPAddress ipAddress = IPAddress.Parse("127.0.0.1");
@@ -35,7 +38,7 @@ namespace SDNCommon
 		public const int MAX_DISTANCE = 999999;
 		public const int MIN_DISTANCE = 1;
 
-		public const int MAX_PACKET_LENGTH = 2048;
+		public const int MAX_PACKET_LENGTH = 8192;
 
 		//交换机连接控制器的物理端口号
 		public const int PHY_PORT_FOR_CONTROLLER = 0;

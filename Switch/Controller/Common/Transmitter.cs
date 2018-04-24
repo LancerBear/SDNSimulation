@@ -19,6 +19,9 @@ namespace Controller
 		/// <param name="buffer">发送内容</param>
 		public static Const.EN_RET_CODE SendViaPhyPort(int PhyPortNo, byte[] buffer)
 		{
+			if (buffer.Length > Const.MAX_PACKET_LENGTH)
+				return Const.EN_RET_CODE.EN_RET_PACKET_LENGTH_OVERFOLW;
+
 			Const.EN_RET_CODE retVal = Const.EN_RET_CODE.EN_RET_INIT;
 			retVal = PhyPortManager.GetInstance().SendTo(PhyPortNo, buffer);
 			return retVal;

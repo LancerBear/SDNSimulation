@@ -2,6 +2,8 @@
 using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Text;
+using System.Threading;
 
 namespace Controller
 {
@@ -264,13 +266,17 @@ namespace Controller
 				Console.Write("\n");
 			}
 
-			PacketHead head = new PacketHead("", "", PacketHead.EN_PACKET_TYPE.EN_PACKET_OUT_WITH_FLOW_ITEM);
-			PacketEntity packetOut = new PacketEntity(head, Util.ObjectToBytes(FlowTableDic));
+			PacketHead head = new PacketHead(srcIP, desIP, PacketHead.EN_PACKET_TYPE.EN_PACKET_OUT_WITH_FLOW_ITEM);
+			byte[] dicByte = Util.ObjectToBytes(FlowTableDic);
+			PacketEntity packetOut = new PacketEntity(head, dicByte);
+			//PacketEntity packetOut = new PacketEntity(head, Encoding.Default.GetBytes("asdf"));
 			retVal = Transmitter.SendViaPhyPort(srcSwitchID, Util.ObjectToBytes(packetOut));
 			if (retVal != Const.EN_RET_CODE.EN_RET_SUCC)
 			{
-				Util.Log(Util.EN_LOG_LEVEL.EN_LOG_INFO, "packet_out 发送失败");
+				Util.Log(Util.EN_LOG_LEVEL.EN_LOG_INFO, srcSwitchID + "号交换机路径请求发送失败");
+				return;
 			}
+			Util.Log(Util.EN_LOG_LEVEL.EN_LOG_INFO, srcSwitchID + "号交换机路径请求发送成功");
 			//Console.WriteLine("distance: ");
 			//for (int i = 0; i < Program.iMaxSwitchID + 1; i++)
 			//{

@@ -1,4 +1,5 @@
 ﻿using SDNCommon;
+using System;
 using System.Net;
 using System.Net.Sockets;
 using System.Threading;
@@ -54,18 +55,13 @@ namespace Host
 					//Console.WriteLine("SocketException" + ex.ErrorCode);
 					continue;
 				}
-
+				//Console.WriteLine(((IPEndPoint)this.epRemotePoint).Port + " " + this.listenPort);
 				//如果接收到数据的是从监听端口发出的，将消息写入消息队列
 				if (((IPEndPoint)this.epRemotePoint).Port == this.listenPort)
 				{
 					PacketInfo packetInfo = new PacketInfo(this.listenerNo, buffer);
 
-					//P操作
-					Program.PktQueueMutex.WaitOne();
-					//写队列
-					Program.PacketQueue.Enqueue(packetInfo);
-					//V操作
-					Program.PktQueueMutex.ReleaseMutex();
+					PhyPortManager.GetInstance().HandleReceive(packetInfo);
 				}
 			}
 

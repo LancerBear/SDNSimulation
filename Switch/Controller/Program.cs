@@ -53,6 +53,8 @@ namespace Controller
 			}
 			Util.Log(Util.EN_LOG_LEVEL.EN_LOG_INFO, "控制器初始化完成");
 
+			//ShowPathInfo();
+
 			//开始控制器应用
 			ControllerApp.StartApp();
 		}

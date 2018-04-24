@@ -5,6 +5,12 @@ using System.Threading;
 
 namespace Host
 {
+	/// <summary>
+	/// 委托函数类，可以作为参数传入函数，实现函数指针的功能
+	/// </summary>
+	/// <param name="buffer"></param>
+	public delegate void DelegateFunc(PacketInfo packetInfo);
+
 	class Program
 	{
 		//当前主机的ID 
