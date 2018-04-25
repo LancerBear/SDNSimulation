@@ -1,5 +1,6 @@
 ﻿using SDNCommon;
 using System;
+using System.Net;
 using System.Xml;
 
 namespace Host
@@ -55,6 +56,18 @@ namespace Host
 					{
 						continue;
 					}
+
+					try
+					{
+						IPAddress.Parse(strHostIP);
+					}
+					catch(System.FormatException)
+					{
+						Util.Log(Util.EN_LOG_LEVEL.EN_LOG_FATAL, "IP地址不合法");
+						return Const.EN_RET_CODE.EN_RET_ERR;
+					}
+
+					Program.strCurHostIP = strHostIP;
 
 					strHostPort = ((XmlElement)hostNode).GetElementsByTagName("HostPort")[0].InnerText;
 					strSwitchPort = ((XmlElement)hostNode).GetElementsByTagName("switchPort")[0].InnerText;

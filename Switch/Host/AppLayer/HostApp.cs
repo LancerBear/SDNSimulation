@@ -93,8 +93,20 @@ namespace Host
 		/// <param name="packetInfo"></param>
 		public static void DealRecPacketInfo(PacketInfo packetInfo)
 		{
-			string str = Encoding.Default.GetString(packetInfo.GetPacketByte());
-			Console.WriteLine(str);
+			PacketEntity packetEntity = (PacketEntity)Util.BytesToObject(packetInfo.GetPacketByte());
+			PacketHead head = packetEntity.GetHead();
+			string desIP = head.strDesIP;
+			string srcIP = head.strSrcIP;
+			string content = packetEntity.GetStrContent();
+
+			if (Program.strCurHostIP == desIP)
+			{
+				Console.WriteLine("收到来自 " + srcIP + "主机的消息: " + content);
+			}
+			else
+			{
+				Util.Log(Util.EN_LOG_LEVEL.EN_LOG_INFO, "收到消息目的IP与本机不符" + desIP + " " + Program.strCurHostIP);
+			}
 		}
 
 
