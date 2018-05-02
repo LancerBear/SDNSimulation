@@ -171,7 +171,13 @@ namespace Switch
 			//流表中不存在转发选项，将数据包暂存缓冲区，上报控制器
 			else
 			{
-				Program.BufferQueue.Enqueue(packetInfo);
+				BufQueItem item = new BufQueItem(packetInfo, desIP);
+
+				//存入缓冲队列
+				Program.BufferQueueMutex.WaitOne();
+				Program.BufferQueue.Enqueue(item);
+				Program.BufferQueueMutex.ReleaseMutex();
+
 				PacketHead head = new PacketHead(srcIP, desIP, PacketHead.EN_PACKET_TYPE.EN_PACKET_IN);
 				PacketEntity packetIn = new PacketEntity(head, "");
 				retVal = Transmitter.SendViaPhyPort(0, Util.ObjectToBytes(packetIn));
@@ -188,7 +194,7 @@ namespace Switch
 		/// <param name="packetInfo"></param>
 		public static void DealPacketOut(PacketInfo packetInfo)
 		{
-			Console.WriteLine("packet_out");
+			//Console.WriteLine("packet_out");
 			byte[] buffer = packetInfo.GetPacketByte();
 			PacketEntity packet = (PacketEntity)Util.BytesToObject(buffer);
 			byte[] FlowBuffer = packet.GetByteContent();
@@ -200,7 +206,84 @@ namespace Switch
 				FlowTableItem fItem = new FlowTableItem(dictionary.ElementAt(i).Key, dictionary.ElementAt(i).Value);
 				FlowTable.GetInstance().AddItem(fItem);
 			}
+			//打印当前所有的流表项
 			FlowTable.PrintItems();
+
+			//刷新缓冲队列
+			RefreshBufferQeueu(dictionary);
+		}
+
+		/// <summary>
+		/// 刷新缓冲队列，将队列中能匹配到的数据包转发出去
+		/// </summary>
+		public static void RefreshBufferQeueu(Dictionary<string, int> dictionary)
+		{
+			if (dictionary.Count == 0)
+			{
+				return;
+			}
+
+			BufQueItem bufQueItem = null;
+
+			//记录上一次匹配到的dictionary中的下标
+			int indexOfDic = 0;
+
+			//P操作
+			Program.BufferQueueMutex.WaitOne();
+
+			while (Program.BufferQueue.Count != 0)
+			{
+				bufQueItem = Program.BufferQueue.Dequeue();
+				if (bufQueItem == null)
+				{
+					break;
+				}
+
+				DateTime curTime = DateTime.Now;
+				TimeSpan ts = curTime.Subtract(bufQueItem.EnQueueTime).Duration();
+				Double douInterval = ts.TotalSeconds;
+				
+				//如果大于保存时间，则将数据包丢弃
+				if (douInterval > Const.MAX_BUF_TIME)
+				{
+					Util.Log(Util.EN_LOG_LEVEL.EN_LOG_INFO, "丢弃数据包");
+					continue;
+				}
+
+				string strDesIP = bufQueItem.strDesIP;
+
+				//由于数据包目的地址的连续性，一般缓冲区中的下一个数据包目标地址和上一个一样，为了避免重新搜索，记录上一个匹配到的字典下标
+				if (dictionary.ElementAt(indexOfDic).Key == strDesIP)
+				{
+					int port = dictionary.ElementAt(indexOfDic).Value;
+					Transmitter.SendViaPhyPort(port, bufQueItem.packetInfo.GetPacketByte());
+				}
+				else
+				{
+					//记录是否匹配到字典中的流表项
+					bool findInDic = false;
+
+					for (int i = 0; i < dictionary.Count; i++)
+					{
+						if (dictionary.ElementAt(i).Key == strDesIP)
+						{
+							findInDic = true;
+							indexOfDic = i;
+							int port = dictionary.ElementAt(i).Value;
+							Transmitter.SendViaPhyPort(port, bufQueItem.packetInfo.GetPacketByte());
+						}
+					}
+
+					//没有匹配到字典中的流表项,重新放入队列
+					if (findInDic == false)
+					{
+						Program.BufferQueue.Enqueue(bufQueItem);
+					}
+				}
+
+			}
+
+			Program.BufferQueueMutex.ReleaseMutex();
 		}
 	}
 }

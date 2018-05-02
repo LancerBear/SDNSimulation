@@ -57,6 +57,7 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="AppLayer\BufQueItem.cs" />
     <Compile Include="AppLayer\FlowTable.cs" />
     <Compile Include="AppLayer\FlowTableItem.cs" />
     <Compile Include="AppLayer\SwitchApp.cs" />

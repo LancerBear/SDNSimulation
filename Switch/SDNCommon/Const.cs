@@ -45,5 +45,8 @@ namespace SDNCommon
 
 		//无效数字，用于初始化变量
 		public const int INVALID_NUM = -1;
+
+		//数据包缓冲的最大时间
+		public const double MAX_BUF_TIME = 5.00;
 	}
 }

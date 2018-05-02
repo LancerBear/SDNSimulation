@@ -58,7 +58,7 @@ namespace Switch
 			}
 
 			int low = 0;
-			int high = SortedItemList.Count;
+			int high = SortedItemList.Count - 1;
 			int mid = Const.INVALID_NUM;
 
 			while (low <= high)

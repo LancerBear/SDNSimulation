@@ -23,7 +23,10 @@ namespace Switch
 		public static Mutex PktQueueMutex = new Mutex();
 
 		//接收到的没有匹配流表的缓冲区
-		public static Queue<PacketInfo> BufferQueue = new Queue<PacketInfo>();
+		public static Queue<BufQueItem> BufferQueue = new Queue<BufQueItem>();
+
+		//缓冲区互斥锁
+		public static Mutex BufferQueueMutex = new Mutex();
 
 		static void Main(string[] args)
 		{
