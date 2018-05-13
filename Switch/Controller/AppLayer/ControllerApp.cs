@@ -55,7 +55,7 @@ namespace Controller
 		/// 处理接收到的消息的函数
 		/// </summary>
 		/// <param name="packetInfo">待处理的消息</param>
-		public static void DealReceivePacket(PacketInfo packetInfo)
+		private static void DealReceivePacket(PacketInfo packetInfo)
 		{
 			byte[] buffer = packetInfo.GetPacketByte();
 			PacketEntity packet = (PacketEntity)Util.BytesToObject(buffer);
@@ -81,7 +81,7 @@ namespace Controller
 		/// 处理交换机上线消息
 		/// </summary>
 		/// <param name=""></param>
-		public static void DealSwitchOnlinePacket(PacketInfo packetInfo)
+		private static void DealSwitchOnlinePacket(PacketInfo packetInfo)
 		{
 			byte[] packetByte = packetInfo.GetPacketByte();
 			int iPhyPortNo = packetInfo.GetPhyPort();
@@ -107,7 +107,7 @@ namespace Controller
 		/// 处理packet_in消息，计算最短路径后，发送packet_out消息
 		/// </summary>
 		/// <param name="packetInfo"></param>
-		public static void DealPakcetIn(PacketInfo packetInfo)
+		private static void DealPakcetIn(PacketInfo packetInfo)
 		{
 			byte[] packetByte = packetInfo.GetPacketByte();
 			int iPhyPortNo = packetInfo.GetPhyPort();

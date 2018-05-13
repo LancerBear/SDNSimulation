@@ -45,7 +45,7 @@ namespace Host
 		/// </summary>
 		/// <param name="cmdStr"></param>
 		/// <returns></returns>
-		public static Const.EN_RET_CODE DealCommandStr(string cmdStr)
+		private static Const.EN_RET_CODE DealCommandStr(string cmdStr)
 		{
 			//分割命令
 			string[] cmdArry = System.Text.RegularExpressions.Regex.Split(cmdStr, @"[ ]+");
@@ -91,7 +91,7 @@ namespace Host
 		/// 接收到消息之后的回调函数
 		/// </summary>
 		/// <param name="packetInfo"></param>
-		public static void DealRecPacketInfo(PacketInfo packetInfo)
+		private static void DealRecPacketInfo(PacketInfo packetInfo)
 		{
 			PacketEntity packetEntity = (PacketEntity)Util.BytesToObject(packetInfo.GetPacketByte());
 			PacketHead head = packetEntity.GetHead();
