@@ -88,7 +88,7 @@ namespace Switch
 		/// 处理消息队列中的消息
 		/// </summary>
 		/// <param name="packetInfo">待处理的消息包</param>
-		public static void DealReceivePacket(PacketInfo packetInfo)
+		private static void DealReceivePacket(PacketInfo packetInfo)
 		{
 			int iPhyPortNo = packetInfo.GetPhyPort();
 			byte[] buffer = packetInfo.GetPacketByte();
@@ -115,7 +115,7 @@ namespace Switch
 		/// 阻塞的方式处理控制器的消息，处理完之前无法接受控制器消息，属于监听子线程
 		/// </summary>
 		/// <param name="packetInfo"></param>
-		public static void DealControllerPacket(PacketInfo packetInfo)
+		private static void DealControllerPacket(PacketInfo packetInfo)
 		{
 			int iPhyPortNo = packetInfo.GetPhyPort();
 			byte[] buffer = packetInfo.GetPacketByte();
@@ -149,12 +149,14 @@ namespace Switch
 		/// </summary>
 		/// <param name="packetInfo"></param>
 		/// <returns></returns>
-		public static void TranNormalPacket(PacketInfo packetInfo)
+		private static void TranNormalPacket(PacketInfo packetInfo)
 		{
 			byte[] packetByte = packetInfo.GetPacketByte();
 			PacketEntity packetEntity = (PacketEntity)Util.BytesToObject(packetByte);
 			string srcIP = packetEntity.GetHead().strSrcIP;
 			string desIP = packetEntity.GetHead().strDesIP;
+
+			Console.WriteLine("收到目的IP是" + desIP + "的数据包");
 
 			Const.EN_RET_CODE retVal = Const.EN_RET_CODE.EN_RET_INIT;
 			int tranPort = Const.INVALID_NUM;
@@ -162,6 +164,8 @@ namespace Switch
 			//流表中存在转发选项，直接转发
 			if (FlowTable.GetInstance().TryGetItem(desIP, out tranPort))
 			{
+				Console.WriteLine("匹配到流表项， 向端口" + tranPort + "转发");
+
 				retVal = Transmitter.SendViaPhyPort(tranPort, packetByte);
 				if (Const.EN_RET_CODE.EN_RET_SUCC != retVal)
 				{
@@ -171,6 +175,7 @@ namespace Switch
 			//流表中不存在转发选项，将数据包暂存缓冲区，上报控制器
 			else
 			{
+				Console.WriteLine("未匹配到流表项，放入缓冲队列，向控制器发送流表请求数据包packet_in");
 				BufQueItem item = new BufQueItem(packetInfo, desIP);
 
 				//存入缓冲队列
@@ -192,7 +197,7 @@ namespace Switch
 		/// 处理控制器下发的Pakcet_Out消息，监听子线程调用
 		/// </summary>
 		/// <param name="packetInfo"></param>
-		public static void DealPacketOut(PacketInfo packetInfo)
+		private static void DealPacketOut(PacketInfo packetInfo)
 		{
 			//Console.WriteLine("packet_out");
 			byte[] buffer = packetInfo.GetPacketByte();
@@ -200,14 +205,19 @@ namespace Switch
 			byte[] FlowBuffer = packet.GetByteContent();
 			Dictionary<string, int> dictionary = (Dictionary<string, int>)Util.BytesToObject(FlowBuffer);
 
+			Console.WriteLine("收到控制器下发的流表项:");
 			for (int i = 0; i < dictionary.Count; i++)
 			{
-				//Console.WriteLine(dictionary.ElementAt(i).Key + "  " + dictionary.ElementAt(i).Value);
+				Console.WriteLine("目的IP " + dictionary.ElementAt(i).Key + " 转发端口 " + dictionary.ElementAt(i).Value);
 				FlowTableItem fItem = new FlowTableItem(dictionary.ElementAt(i).Key, dictionary.ElementAt(i).Value);
-				FlowTable.GetInstance().AddItem(fItem);
+				bool boolRes = FlowTable.GetInstance().AddItem(fItem);
+				if (boolRes != true)
+				{
+					Util.Log(Util.EN_LOG_LEVEL.EN_LOG_INFO, "加入流表项失败！");
+				}
 			}
 			//打印当前所有的流表项
-			FlowTable.PrintItems();
+			//FlowTable.PrintItems();
 
 			//刷新缓冲队列
 			RefreshBufferQeueu(dictionary);
@@ -216,7 +226,7 @@ namespace Switch
 		/// <summary>
 		/// 刷新缓冲队列，将队列中能匹配到的数据包转发出去
 		/// </summary>
-		public static void RefreshBufferQeueu(Dictionary<string, int> dictionary)
+		private static void RefreshBufferQeueu(Dictionary<string, int> dictionary)
 		{
 			if (dictionary.Count == 0)
 			{
@@ -270,6 +280,9 @@ namespace Switch
 							findInDic = true;
 							indexOfDic = i;
 							int port = dictionary.ElementAt(i).Value;
+
+							Console.WriteLine("从缓冲队列取出目的IP是" + strDesIP + "的数据包，向端口" + port + "转发");
+
 							Transmitter.SendViaPhyPort(port, bufQueItem.packetInfo.GetPacketByte());
 						}
 					}

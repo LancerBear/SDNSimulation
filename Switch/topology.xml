@@ -85,6 +85,16 @@
 	<switchPort>9003</switchPort>
 </Host>
 
+<Host>
+	<distance>100</distance>
+	<HostID>11</HostID>
+	<HostIP>10.231.44.67</HostIP>
+	<switchID>3</switchID>
+	<PhyPortNo>4</PhyPortNo>
+	<HostPort>9004</HostPort>
+	<switchPort>9005</switchPort>
+</Host>
+
 <pair>
 	<distance>2475</distance>
 

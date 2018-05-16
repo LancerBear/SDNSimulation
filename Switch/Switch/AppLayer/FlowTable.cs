@@ -64,7 +64,7 @@ namespace Switch
 			while (low <= high)
 			{
 				mid = (low + high) / 2;
-				Console.WriteLine("mid = " + mid);
+				//Console.WriteLine("mid = " + mid);
 				if (string.Compare(SortedItemList.ElementAt(mid).Key, desIP) == 0)
 				{
 					phyPortNo = SortedItemList.ElementAt(mid).Value.iTransPhyPort;
@@ -87,17 +87,23 @@ namespace Switch
 		/// 增加流表项
 		/// </summary>
 		/// <param name="fItem"></param>
-		public void AddItem(FlowTableItem fItem)
+		public bool AddItem(FlowTableItem fItem)
 		{
 			try
 			{
 				SortedItemList.Add(fItem.strDesIP, fItem);
 			}
+			//Key是null
+			catch (System.ArgumentNullException)
+			{
+				return false;
+			}
 			//已经存在键值相同的Item
 			catch (System.ArgumentException)
 			{
-
+				return true;
 			}
+			return true;
 		}
 
 		/// <summary>
@@ -105,6 +111,7 @@ namespace Switch
 		/// </summary>
 		public static void PrintItems()
 		{
+			Console.WriteLine("当前流表项：");
 			for (int i = 0; i < SortedItemList.Count; i++)
 			{
 				Console.WriteLine(SortedItemList.ElementAt(i).Key + "\t" + SortedItemList.ElementAt(i).Value.iTransPhyPort);

@@ -9,17 +9,20 @@ namespace SDNCommon
 		private PacketHead head;
 		//private string strContent;
 		private byte[] byteContent;
+		public bool isContentStr;
 
 		public PacketEntity(PacketHead head, string strContent)
 		{
 			this.head = head;
 			this.byteContent = Encoding.Default.GetBytes(strContent);
+			isContentStr = true;
 		}
 
 		public PacketEntity(PacketHead head, byte[] byteContent)
 		{
 			this.head = head;
 			this.byteContent = byteContent;
+			isContentStr = false;
 		}
 
 		public PacketHead GetHead()
