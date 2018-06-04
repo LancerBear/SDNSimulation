@@ -2,8 +2,6 @@
 using System;
 using System.Collections.Generic;
 using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 
 namespace Switch
 {
@@ -15,6 +13,7 @@ namespace Switch
 		private static SortedList<string, FlowTableItem> SortedItemList;
 		private static FlowTable instance = null;
 		private static readonly object objLock = new object();
+		private static readonly object RWObjLock = new object();
 
 		/// <summary>
 		/// 私有构造函数，单例模式
@@ -51,59 +50,64 @@ namespace Switch
 		/// <returns>流表中有该表项则返回true， 否则返回false</returns>
 		public bool TryGetItem(string desIP, out int phyPortNo)
 		{
-			if (SortedItemList.Count == 0)
+			lock (RWObjLock)
 			{
+				if (SortedItemList.Count == 0)
+				{
+					phyPortNo = Const.INVALID_NUM;
+					return false;
+				}
+
+				int low = 0;
+				int high = SortedItemList.Count - 1;
+				int mid = Const.INVALID_NUM;
+
+				while (low <= high)
+				{
+					mid = (low + high) / 2;
+					//Console.WriteLine("mid = " + mid);
+					if (string.Compare(SortedItemList.ElementAt(mid).Key, desIP) == 0)
+					{
+						phyPortNo = SortedItemList.ElementAt(mid).Value.iTransPhyPort;
+						return true;
+					}
+					else if (string.Compare(SortedItemList.ElementAt(mid).Key, desIP) > 0)
+					{
+						high = mid - 1;
+					}
+					else
+					{
+						low = mid + 1;
+					}
+				}
 				phyPortNo = Const.INVALID_NUM;
 				return false;
 			}
-
-			int low = 0;
-			int high = SortedItemList.Count - 1;
-			int mid = Const.INVALID_NUM;
-
-			while (low <= high)
-			{
-				mid = (low + high) / 2;
-				//Console.WriteLine("mid = " + mid);
-				if (string.Compare(SortedItemList.ElementAt(mid).Key, desIP) == 0)
-				{
-					phyPortNo = SortedItemList.ElementAt(mid).Value.iTransPhyPort;
-					return true;
-				}
-				else if (string.Compare(SortedItemList.ElementAt(mid).Key, desIP) > 0)
-				{
-					high = mid - 1;
-				}
-				else
-				{
-					low = mid + 1;
-				}
-			}
-			phyPortNo = Const.INVALID_NUM;
-			return false;
 		}
-
 		/// <summary>
 		/// 增加流表项
 		/// </summary>
 		/// <param name="fItem"></param>
 		public bool AddItem(FlowTableItem fItem)
 		{
-			try
+			lock (RWObjLock)
 			{
-				SortedItemList.Add(fItem.strDesIP, fItem);
-			}
-			//Key是null
-			catch (System.ArgumentNullException)
-			{
-				return false;
-			}
-			//已经存在键值相同的Item
-			catch (System.ArgumentException)
-			{
+				try
+				{
+					SortedItemList.Add(fItem.strDesIP, fItem);
+				}
+				//Key是null
+				catch (System.ArgumentNullException)
+				{
+					return false;
+				}
+				//已经存在键值相同的Item
+				catch (System.ArgumentException)
+				{
+					return true;
+				}
 				return true;
 			}
-			return true;
 		}
 
 		/// <summary>

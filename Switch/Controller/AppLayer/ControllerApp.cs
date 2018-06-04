@@ -259,13 +259,13 @@ namespace Controller
 				FlowTableDic.Add(GetSwitchIPByID(i), transPort);
 			}
 
-			Console.WriteLine("下发流表：");
-			for (int i = 0; i < FlowTableDic.Count; i++)
-			{
-				Console.Write("目的IP " + FlowTableDic.ElementAt(i).Key + "\t");
-				Console.Write("转发端口 " + FlowTableDic.ElementAt(i).Value);
-				Console.Write("\n");
-			}
+			//Console.WriteLine("下发流表：");
+			//for (int i = 0; i < FlowTableDic.Count; i++)
+			//{
+			//	Console.Write("目的IP " + FlowTableDic.ElementAt(i).Key + "\t");
+			//	Console.Write("转发端口 " + FlowTableDic.ElementAt(i).Value);
+			//	Console.Write("\n");
+			//}
 
 			PacketHead head = new PacketHead(srcIP, desIP, PacketHead.EN_PACKET_TYPE.EN_PACKET_OUT_WITH_FLOW_ITEM);
 			byte[] dicByte = Util.ObjectToBytes(FlowTableDic);
@@ -274,10 +274,10 @@ namespace Controller
 			retVal = Transmitter.SendViaPhyPort(srcSwitchID, Util.ObjectToBytes(packetOut));
 			if (retVal != Const.EN_RET_CODE.EN_RET_SUCC)
 			{
-				Util.Log(Util.EN_LOG_LEVEL.EN_LOG_INFO, srcSwitchID + "号交换机流表请求发送失败");
+				Util.Log(Util.EN_LOG_LEVEL.EN_LOG_INFO, srcSwitchID + "号交换机流表请求发送失败\n");
 				return;
 			}
-			Util.Log(Util.EN_LOG_LEVEL.EN_LOG_INFO, srcSwitchID + "号交换机流表请求发送成功");
+			Util.Log(Util.EN_LOG_LEVEL.EN_LOG_INFO, srcSwitchID + "号交换机流表请求发送成功\n");
 			//Console.WriteLine("distance: ");
 			//for (int i = 0; i < Program.iMaxSwitchID + 1; i++)
 			//{

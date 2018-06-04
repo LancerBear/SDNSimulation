@@ -1,0 +1,10 @@
+D:\毕业设计\Codes\Switch\Controller\bin\Debug\Controller.exe.config
+D:\毕业设计\Codes\Switch\Controller\bin\Debug\Controller.exe
+D:\毕业设计\Codes\Switch\Controller\bin\Debug\Controller.pdb
+D:\毕业设计\Codes\Switch\Controller\bin\Debug\Switch.exe
+D:\毕业设计\Codes\Switch\Controller\bin\Debug\Switch.pdb
+D:\毕业设计\Codes\Switch\Controller\bin\Debug\Switch.exe.config
+D:\毕业设计\Codes\Switch\Controller\obj\Debug\Controller.csprojResolveAssemblyReference.cache
+D:\毕业设计\Codes\Switch\Controller\obj\Debug\Controller.csproj.CoreCompileInputs.cache
+D:\毕业设计\Codes\Switch\Controller\obj\Debug\Controller.exe
+D:\毕业设计\Codes\Switch\Controller\obj\Debug\Controller.pdb
