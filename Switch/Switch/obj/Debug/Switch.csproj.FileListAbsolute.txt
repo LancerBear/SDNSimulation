@@ -1,6 +1,0 @@
-D:\毕业设计\Codes\Switch\Switch\bin\Debug\Switch.exe.config
-D:\毕业设计\Codes\Switch\Switch\bin\Debug\Switch.exe
-D:\毕业设计\Codes\Switch\Switch\bin\Debug\Switch.pdb
-D:\毕业设计\Codes\Switch\Switch\obj\Debug\Switch.csproj.CoreCompileInputs.cache
-D:\毕业设计\Codes\Switch\Switch\obj\Debug\Switch.exe
-D:\毕业设计\Codes\Switch\Switch\obj\Debug\Switch.pdb
